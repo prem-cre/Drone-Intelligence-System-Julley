@@ -1,0 +1,443 @@
+[
+  {
+    "id": "chunk-1",
+    "content": "Case Study: Agricultural Drone Spraying & Economics in India\n# Case Study: Agricultural Drone Spraying & Economics in India",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "Case Study: Agricultural Drone Spraying & Economics in India",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-2",
+    "content": "Executive Summary\nPrecision agriculture powered by agricultural drones (such as IoTechWorld Agribot, Marut AG30, and Garuda Kisan Drone) is transforming Indian farming across cotton, paddy, sugarcane, and chilli belts in Telangana, Andhra Pradesh, Punjab, and Maharashtra.\n\n---",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "Executive Summary",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-3",
+    "content": "1. Field Performance Comparison: Manual vs Drone Spraying\n| Parameter | Traditional Manual Spraying | Drone Spraying (Small Category) | Improvement / Benefit |\n| :--- | :--- | :--- | :--- |\n| **Water Consumption** | 200 - 250 Liters / Acre | 10 - 12 Liters / Acre | **95% reduction in water** |\n| **Pesticide Consumption** | 100% standard dosage | 70% - 80% ultra-low volume | **20% - 30% chemical savings** |\n| **Time per Acre** | 3.5 - 4.0 Hours | 7 - 10 Minutes | **25x faster execution** |\n| **Daily Coverage** | 2 - 3 Acres per laborer | 25 - 35 Acres",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "1. Field Performance Comparison: Manual vs Drone Spraying",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-4",
+    "content": "1. Field Performance Comparison: Manual vs Drone Spraying\nerage** | 2 - 3 Acres per laborer | 25 - 35 Acres per operator | **10x higher throughput** |\n| **Health Impact** | High dermal/respiratory risk | Zero direct chemical contact | **100% health safety** |\n\n---",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "1. Field Performance Comparison: Manual vs Drone Spraying",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-5",
+    "content": "2. Economic Analysis & Entrepreneurial ROI Model\n### Initial Investment (10L Agriculture Drone Setup):\n- **Drone Unit Price (DGCA Type Certified)**: \u20b96,50,000\n- **Extra Batteries (4 Sets) + Fast Charger**: \u20b91,20,000\n- **Pilot Training (RPC Fee at RPTO)**: \u20b935,000\n- **Total Initial Outlay**: \u20b98,05,000 *(Can be reduced to \u20b93,50,000 with 50-80% Subsidies under AIF / SMAM / Namo Drone Didi Scheme)*.\n\n### Monthly Financial Operating Model:\n- **Average Spraying Service Fee**: \u20b9450 per acre\n- **Target Monthly Coverage**: 500 acres (20 days @ 25 acre",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "2. Economic Analysis & Entrepreneurial ROI Model",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-6",
+    "content": "2. Economic Analysis & Entrepreneurial ROI Model\nt Monthly Coverage**: 500 acres (20 days @ 25 acres/day)\n- **Gross Monthly Revenue**: \u20b92,25,000 (500 acres \u00d7 \u20b9450)\n- **Direct Operating Expenses**:\n  - Battery degradation & electricity charging: \u20b925,000\n  - Vehicle transport & field logistics: \u20b920,000\n  - Pilot & Helper allowance: \u20b935,000\n  - Maintenance & insurance reserve: \u20b915,000\n- **Net Monthly Operating Profit**: \u20b91,30,000\n\n### Payback & Break-Even Timeline:\n- **Without Subsidy**: Break-even achieved in **6.2 months**.\n- **With 50% Governm",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "2. Economic Analysis & Entrepreneurial ROI Model",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-7",
+    "content": "2. Economic Analysis & Entrepreneurial ROI Model\nn achieved in **6.2 months**.\n- **With 50% Government Subsidy**: Break-even achieved in **2.8 months**.\n- **Net 3-Year Profit Projection**: Exceeds \u20b935,00,000.\n\n---",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "2. Economic Analysis & Entrepreneurial ROI Model",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-8",
+    "content": "3. Agronomic Benefits & Crop Health Surveying\nMultispectral sensors mounted on survey drones compute Normalized Difference Vegetation Index (NDVI) heatmaps. This enables farmers to detect nitrogen deficiency, fungal rust, and pest infestation 14 days before visible leaf discoloration occurs.",
+    "metadata": {
+      "source": "agricultural_drone_case_study.md",
+      "title": "3. Agronomic Benefits & Crop Health Surveying",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-9",
+    "content": "Comprehensive DGCA Drone Regulations Handbook (India)\n# Comprehensive DGCA Drone Regulations Handbook (India)",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "Comprehensive DGCA Drone Regulations Handbook (India)",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-10",
+    "content": "1. Overview of Drone Rules 2021\nThe Ministry of Civil Aviation notified the liberalized **Drone Rules 2021** on August 25, 2021, replacing the earlier Unmanned Aircraft System (UAS) Rules 2021. The revised framework significantly simplified compliance, reduced total approval forms from 25 to 5, eliminated security clearance requirements before registration, and lowered license fees.\n\n### Key Regulatory Highlights:\n- **Coverage**: Applies to all unmanned aircraft systems registered in India or operated within Indian airspace up",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "1. Overview of Drone Rules 2021",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-11",
+    "content": "1. Overview of Drone Rules 2021\nred in India or operated within Indian airspace up to an all-inclusive maximum takeoff weight (MTOW) of 500 kg.\n- **DigitalSky Platform**: Single-window online portal (digitalsky.dgca.gov.in) for registration, UIN allocation, flight permissions, and airspace map access.\n- **Classification by Weight**:\n  1. **Nano**: MTOW less than or equal to 250 grams.\n  2. **Micro**: MTOW greater than 250 g and less than or equal to 2 kg.\n  3. **Small**: MTOW greater than 2 kg and less than or equal to 25 kg.",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "1. Overview of Drone Rules 2021",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-12",
+    "content": "1. Overview of Drone Rules 2021\nreater than 2 kg and less than or equal to 25 kg.\n  4. **Medium**: MTOW greater than 25 kg and less than or equal to 150 kg.\n  5. **Large**: MTOW greater than 150 kg.\n\n---",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "1. Overview of Drone Rules 2021",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-13",
+    "content": "2. Airspace Zoning Framework & Flight Permission Workflow\nIndia's airspace is categorized into three color-coded zones displayed on the interactive DigitalSky map:\n\n### Green Zone:\n- Airspace up to a vertical distance of 400 feet (120 meters) above ground level in areas not designated as yellow or red zones.\n- Includes airspace up to 200 feet (60 meters) above ground level in areas between 8 km and 12 km from the perimeter of an operational airport.\n- **Flight Permission Requirement**: **No prior flight permission** is needed for flying in green zones.",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "2. Airspace Zoning Framework & Flight Permission Workflow",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-14",
+    "content": "2. Airspace Zoning Framework & Flight Permission Workflow\npermission** is needed for flying in green zones. Operators only log their flight intent on DigitalSky.\n\n### Yellow Zone:\n- Controlled airspace up to 400 feet located between 8 km and 12 km from an operational airport perimeter, or airspace above 400 feet in green zones.\n- **Flight Permission Requirement**: Mandatory prior flight permission from Air Traffic Control (ATC) via DigitalSky.\n\n### Red Zone:\n- Airspace around vital installations, national defense infrastructure, international borders",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "2. Airspace Zoning Framework & Flight Permission Workflow",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-15",
+    "content": "2. Airspace Zoning Framework & Flight Permission Workflow\nnal defense infrastructure, international borders (within 25 km), and within 5 km of operational international airports.\n- **Flight Permission Requirement**: Flying is strictly prohibited except under direct authorization from the Central Government.\n\n---",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "2. Airspace Zoning Framework & Flight Permission Workflow",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-16",
+    "content": "3. Registration, Certification & Pilot Requirements\n### Unique Identification Number (UIN):\nEvery drone operating in India (except non-commercial nano drones) must possess a valid UIN issued on DigitalSky. Self-certification of serial number and hardware specifications is conducted online.\n\n### Remote Pilot Certificate (RPC):\n- To operate a drone commercially in India, pilots must hold an RPC issued by a DGCA-authorized Remote Pilot Training Organization (RPTO).\n- **Eligibility**: Minimum age 18 years, maximum age 65 years, passed 10th standard",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "3. Registration, Certification & Pilot Requirements",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-17",
+    "content": "3. Registration, Certification & Pilot Requirements\nyears, maximum age 65 years, passed 10th standard exam or equivalent from a recognized board.\n- **Validity**: RPC remains valid for 10 years and can be renewed via refresher training.\n\n### NPNT (No Permission, No Take-off):\nDrones must be integrated with NPNT firmware/hardware architecture. Before arming motors, the drone verifies signed permission artifacts from DigitalSky; if unapproved, motors will refuse to spin.\n\n---",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "3. Registration, Certification & Pilot Requirements",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-18",
+    "content": "4. Import Regulations & Financial Incentives\n- **CBU Import Prohibition**: In February 2022, Directorate General of Foreign Trade (DGFT) prohibited the import of completely built-in (CBU) foreign drones to foster Make in India domestic manufacturing.\n- **Component Imports**: Import of drone components (flight controllers, motors, carbon fiber frames, sensors, ESCs) remains unrestricted.\n- **Production-Linked Incentive (PLI) Scheme**: Provides 20% financial incentive on net value addition achieved by Indian manufacturers of drones and drone",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "4. Import Regulations & Financial Incentives",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-19",
+    "content": "4. Import Regulations & Financial Incentives\nhieved by Indian manufacturers of drones and drone components over three fiscal years.",
+    "metadata": {
+      "source": "dgca_regulations_handbook.md",
+      "title": "4. Import Regulations & Financial Incentives",
+      "category": "handbook"
+    }
+  },
+  {
+    "id": "chunk-20",
+    "content": "Unmanned Logistics & Infrastructure Inspection Whitepaper (India)\n# Unmanned Logistics & Infrastructure Inspection Whitepaper (India)",
+    "metadata": {
+      "source": "drone_logistics_and_inspection.md",
+      "title": "Unmanned Logistics & Infrastructure Inspection Whitepaper (India)",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-21",
+    "content": "1. Beyond Visual Line of Sight (BVLOS) Medical Logistics\nIndia's hilly and forested terrains in states like Arunachal Pradesh, Uttarakhand, and Himachal Pradesh present severe transport bottlenecks for critical healthcare.\n\n### ICMR 'i-Drone' Pilot Program:\n- **Mission**: Transporting anti-snake venom, COVID-19 vaccines, and emergency blood bags from regional hubs to remote primary health centers (PHCs).\n- **Performance**: Reduced transit duration between Bishnupur and Karang island in Manipur from 4 hours via ferry boat to 12 minutes using hybrid VTO",
+    "metadata": {
+      "source": "drone_logistics_and_inspection.md",
+      "title": "1. Beyond Visual Line of Sight (BVLOS) Medical Logistics",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-22",
+    "content": "1. Beyond Visual Line of Sight (BVLOS) Medical Logistics\nours via ferry boat to 12 minutes using hybrid VTOL fixed-wing drones.\n- **Payload Specifications**: Cold-chain payload box maintaining 2\u00b0C to 8\u00b0C internal temperature with active temperature monitoring telemetry.\n\n---",
+    "metadata": {
+      "source": "drone_logistics_and_inspection.md",
+      "title": "1. Beyond Visual Line of Sight (BVLOS) Medical Logistics",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-23",
+    "content": "2. Infrastructure & Energy Sector Applications\n### Power Grid Inspection:\nState power utilities (like PowerGrid Corporation of India) utilize thermal-equipped micro drones to inspect 400kV high-voltage transmission towers. Drones identify overheating insulators and hairline structural cracks without de-energizing lines, preventing massive grid failures.\n\n### Oil & Gas Pipeline Monitoring:\nGAIL and Indian Oil Corporation deploy long-range surveillance drones to monitor thousands of kilometers of underground natural gas pipelines, detecting i",
+    "metadata": {
+      "source": "drone_logistics_and_inspection.md",
+      "title": "2. Infrastructure & Energy Sector Applications",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-24",
+    "content": "2. Infrastructure & Energy Sector Applications\nof underground natural gas pipelines, detecting illegal encroachment, vegetation overgrowth, and micro-leaks via optical gas imaging (OGI) payloads.\n\n### Solar PV Plant Maintenance:\nSolar farms in Rajasthan and Gujarat deploy automated drone mapping to survey 100MW solar plants in 2 hours instead of 3 weeks of manual inspection. Radiometric thermal cameras detect defective solar cells and micro-cracks instantly.",
+    "metadata": {
+      "source": "drone_logistics_and_inspection.md",
+      "title": "2. Infrastructure & Energy Sector Applications",
+      "category": "case_study"
+    }
+  },
+  {
+    "id": "chunk-25",
+    "content": "Drone Model: NETRA v4 by ideaForge. Category: Micro. Weight: 2.2 kg. Battery: 12000 mAh. Max Payload: 0.5 kg. Flight Time: 45 mins. Max Range: 10.0 km. Price: \u20b912.5 Lakhs. Primary Use: Surveillance, Security & Border Patrol. Key Features: Day/Night thermal camera, VTOL launch, Fail-safe return to home, NPNT compliant, Target tracking.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: NETRA v4",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-26",
+    "content": "Drone Model: Agribot MX by IoTechWorld Avigation. Category: Small. Weight: 14.5 kg. Battery: 22000 mAh. Max Payload: 10.0 kg. Flight Time: 25 mins. Max Range: 4.0 km. Price: \u20b96.8 Lakhs. Primary Use: Agriculture - Pesticide & Fertilizer Spraying. Key Features: DGCA Type Certified, Radar terrain following, Precision flow control, 10L spray tank, Auto-path planning.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: Agribot MX",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-27",
+    "content": "Drone Model: AG30 by Marut Drones. Category: Medium. Weight: 28.0 kg. Battery: 30000 mAh. Max Payload: 16.0 kg. Flight Time: 20 mins. Max Range: 5.0 km. Price: \u20b98.5 Lakhs. Primary Use: Agriculture & Large Scale Crop Protection. Key Features: 16L dual nozzle spray tank, Obstacle avoidance radar, Multi-drone swarm support, Fast charging battery.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: AG30",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-28",
+    "content": "Drone Model: A410 by Asteria Aerospace. Category: Micro. Weight: 1.8 kg. Battery: 9500 mAh. Max Payload: 0.4 kg. Flight Time: 45 mins. Max Range: 8.0 km. Price: \u20b99.2 Lakhs. Primary Use: Mapping, Surveying & Pipeline Inspection. Key Features: High resolution 4K RGB payload, 4x optical zoom, Hot-swappable battery, Encrypted link.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: A410",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-29",
+    "content": "Drone Model: Kisan Drone 2.0 by Garuda Aerospace. Category: Small. Weight: 12.0 kg. Battery: 16000 mAh. Max Payload: 10.0 kg. Flight Time: 22 mins. Max Range: 3.5 km. Price: \u20b94.5 Lakhs. Primary Use: Agricultural Spraying & Crop Health Monitoring. Key Features: Subsidy eligible under Namo Drone Didi scheme, Simple smartphone controller, Anamorphic nozzle spray.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: Kisan Drone 2.0",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-30",
+    "content": "Drone Model: Defender VTOL by Throttle Aerospace Systems. Category: Small. Weight: 6.5 kg. Battery: 18000 mAh. Max Payload: 1.5 kg. Flight Time: 75 mins. Max Range: 30.0 km. Price: \u20b915.0 Lakhs. Primary Use: Long-range Medical Delivery & Emergency Logistics. Key Features: Hybrid VTOL fixed-wing design, Cold-chain temperature payload box, IP54 weather resistance.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: Defender VTOL",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-31",
+    "content": "Drone Model: Viper 25 by Paras Aerospace. Category: Small. Weight: 8.0 kg. Battery: 14000 mAh. Max Payload: 2.0 kg. Flight Time: 40 mins. Max Range: 12.0 km. Price: \u20b97.5 Lakhs. Primary Use: Industrial Solar & Powerline Thermal Inspection. Key Features: Radiometric thermal camera, Automated power line tracking, Real-time AI fault detection.",
+    "metadata": {
+      "source": "drone_models.json",
+      "title": "Specification: Viper 25",
+      "category": "specifications"
+    }
+  },
+  {
+    "id": "chunk-32",
+    "content": "DGCA Category: Nano. Weight: <= 250 grams. Max Speed: 15 m/s. UIN Required: False. Pilot License Required: False. NPNT Required: False. Rules: Permitted up to 50 feet (15m) AGL in Green Zones. No pilot certificate needed for non-commercial operations.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "DGCA Category Nano Rules",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-33",
+    "content": "DGCA Category: Micro. Weight: 250 grams to 2 kg. Max Speed: 25 m/s. UIN Required: True. Pilot License Required: True. NPNT Required: True. Rules: Permitted up to 200 feet (60m) AGL in Green Zones. Requires UIN registration on DigitalSky and Remote Pilot Certificate (RPC) for commercial use.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "DGCA Category Micro Rules",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-34",
+    "content": "DGCA Category: Small. Weight: 2 kg to 25 kg. Max Speed: 35 m/s. UIN Required: True. Pilot License Required: True. NPNT Required: True. Rules: Permitted up to 400 feet (120m) AGL in Green Zones. Requires UIN, RPC from DGCA-approved RPTO, maintenance logbook, and mandatory insurance.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "DGCA Category Small Rules",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-35",
+    "content": "DGCA Category: Medium. Weight: 25 kg to 150 kg. Max Speed: 45 m/s. UIN Required: True. Pilot License Required: True. NPNT Required: True. Rules: Requires special clearance, operator permit, and strict adherence to designated air corridors. Mainly used for heavy agricultural spraying and cargo logistics.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "DGCA Category Medium Rules",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-36",
+    "content": "DGCA Category: Large. Weight: > 150 kg. Max Speed: 60 m/s. UIN Required: True. Pilot License Required: True. NPNT Required: True. Rules: Governed under Aircraft Rules 1937 and specialized DGCA experimental/military operational approvals.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "DGCA Category Large Rules",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-37",
+    "content": "Airspace Zone: Green Zone. Description: Airspace up to 400 ft (120 m) not designated as yellow or red zone. Located beyond 8 km from perimeter of an operational airport.. Requirements: No prior flight permission required on DigitalSky. Just log flight plan before takeoff.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Airspace Zone Green Zone",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-38",
+    "content": "Airspace Zone: Yellow Zone. Description: Controlled airspace up to 400 ft located within 8-12 km from airport perimeter, or above 400 ft in green zones.. Requirements: Prior flight permission mandatory via Air Traffic Control (ATC) on DigitalSky platform.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Airspace Zone Yellow Zone",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-39",
+    "content": "Airspace Zone: Red Zone. Description: No-fly zone near international borders, military bases, Rashtrapati Bhavan, nuclear plants, and within 5 km of international airport perimeter.. Requirements: Strictly prohibited without explicit Central Government clearance.",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Airspace Zone Red Zone",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-40",
+    "content": "DGCA Fine & Penalty: Violation 'Flying in Red Zone without authorization'. Fine: \u20b9100000. Action: Confiscation of drone, revocation of RPC, potential prosecution under IPC/Bharatiya Nyaya Sanhita..",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Penalty: Flying in Red Zone without authorization",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-41",
+    "content": "DGCA Fine & Penalty: Violation 'Operating without valid UIN registration'. Fine: \u20b925000. Action: Grounding of aircraft and fine under Rule 49 of Drone Rules 2021..",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Penalty: Operating without valid UIN registration",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-42",
+    "content": "DGCA Fine & Penalty: Violation 'Commercial operation without Remote Pilot Certificate (RPC)'. Fine: \u20b950000. Action: Fine on operator and remote pilot..",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Penalty: Commercial operation without Remote Pilot Certificate (RPC)",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-43",
+    "content": "DGCA Fine & Penalty: Violation 'Non-compliance with NPNT (No Permission No Take-off) module'. Fine: \u20b950000. Action: Suspension of type certificate for manufacturer and fine on operator..",
+    "metadata": {
+      "source": "rules_regulations.json",
+      "title": "Penalty: Non-compliance with NPNT (No Permission No Take-off) module",
+      "category": "regulations"
+    }
+  },
+  {
+    "id": "chunk-44",
+    "content": "Indian Drone Market Overview: 2030 market size projected at \u20b930000 Crores. CAGR: 38.5%. Major Initiatives: PLI Scheme for Drones (INR 120 Crore allocation with 20% value addition incentive), Namo Drone Didi Scheme (Providing 15,000 self-help groups with agricultural drones), SVAMITVA Scheme (Mapping 6 lakh+ rural villages using survey drones), DigitalSky Platform (Single-window automated air clearance system).",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Indian Drone Market Overview",
+      "category": "market_trends"
+    }
+  },
+  {
+    "id": "chunk-45",
+    "content": "Indian Drone Company: ideaForge Technology located in Navi Mumbai, Maharashtra. Status: Publicly Listed (NSE/BSE). Focus: Defense, Security, Surveillance & Land Survey. Flagship Models: NETRA v4, SWITCH VTOL, Q6.",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Company Profile: ideaForge Technology",
+      "category": "startups"
+    }
+  },
+  {
+    "id": "chunk-46",
+    "content": "Indian Drone Company: IoTechWorld Avigation located in Gurugram, Haryana. Status: Series A Funded (Invested by Dhanuka Agritech). Focus: Agricultural Drones & Smart Farming Solutions. Flagship Models: Agribot, Agribot MX, Agribot A6.",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Company Profile: IoTechWorld Avigation",
+      "category": "startups"
+    }
+  },
+  {
+    "id": "chunk-47",
+    "content": "Indian Drone Company: Marut Dronetech located in Hyderabad, Telangana. Status: Venture Funded. Focus: Agricultural spraying, Seedcopter reforestation & Public Health mosquito control. Flagship Models: AG30, Seedcopter, Zapster.",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Company Profile: Marut Dronetech",
+      "category": "startups"
+    }
+  },
+  {
+    "id": "chunk-48",
+    "content": "Indian Drone Company: Garuda Aerospace located in Chennai, Tamil Nadu. Status: Series A Funded (Endorsed by MS Dhoni). Focus: Agricultural & Surveillance Drones. Flagship Models: Kisan Drone 2.0, Vapour Drone.",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Company Profile: Garuda Aerospace",
+      "category": "startups"
+    }
+  },
+  {
+    "id": "chunk-49",
+    "content": "Indian Drone Company: Asteria Aerospace located in Bengaluru, Karnataka. Status: Subsidiary of Reliance Industries Limited. Focus: Enterprise GIS, Energy, Infrastructure & Security. Flagship Models: A410, A10, SkyDeck Cloud Platform.",
+    "metadata": {
+      "source": "indian_drone_ecosystem.json",
+      "title": "Company Profile: Asteria Aerospace",
+      "category": "startups"
+    }
+  }
+]
