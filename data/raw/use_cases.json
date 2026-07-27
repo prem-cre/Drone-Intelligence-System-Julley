@@ -1,0 +1,55 @@
+[
+  {
+    "sector": "Agriculture",
+    "application": "Crop Health Monitoring & Precision Spraying",
+    "key_benefits": [
+      "90% reduction in water usage compared to manual spraying",
+      "25-30% reduction in pesticide chemical expenditure",
+      "Coverage of 25-30 acres per day per drone vs 2-3 acres manually",
+      "Eliminates health hazards for farm labor exposing to toxic chemicals"
+    ],
+    "typical_drone_type": "Small Category (10L - 16L Spray Capacity)",
+    "roi_payback_months": 8,
+    "average_service_rate_per_acre_inr": 450,
+    "operational_challenges": "Battery recharge speed in remote fields, farmer awareness, water quality for nozzles."
+  },
+  {
+    "sector": "Logistics & Medical Delivery",
+    "application": "Vaccine, Blood Bag & Essential Supplies Transport in Hilly/Remote Regions",
+    "key_benefits": [
+      "Cuts delivery time from 3-4 hours over mountain roads to 25 minutes",
+      "Temperature-controlled payload cold chain delivery",
+      "Bypasses landslides and road blockages during monsoons"
+    ],
+    "typical_drone_type": "Fixed-wing VTOL (1.5kg - 5kg payload)",
+    "roi_payback_months": 14,
+    "average_service_rate_per_trip_inr": 1200,
+    "operational_challenges": "High wind turbulence in hilly terrain, BVLOS flight approval requirements."
+  },
+  {
+    "sector": "Infrastructure & Utilities",
+    "application": "High-Voltage Powerline, Highway & Oil/Gas Pipeline Inspection",
+    "key_benefits": [
+      "Inspects transmission towers without de-energizing high voltage lines",
+      "AI thermal imaging pinpoints solar panel micro-cracks and hot spots instantly",
+      "Reduces tower climber safety incidents by 95%"
+    ],
+    "typical_drone_type": "Micro / Small VTOL with Dual RGB + Thermal Sensors",
+    "roi_payback_months": 6,
+    "average_service_rate_per_km_inr": 2500,
+    "operational_challenges": "Electromagnetic interference near 400kV power lines, dense data storage."
+  },
+  {
+    "sector": "Security & Defense",
+    "application": "Border Surveillance, Perimeter Guarding & Anti-Smuggling Operations",
+    "key_benefits": [
+      "24/7 continuous autonomous surveillance tethered/untethered",
+      "Real-time intruder motion detection using edge AI",
+      "Stealth night vision infrared monitoring"
+    ],
+    "typical_drone_type": "Micro / Small Military Specification Quadcopter",
+    "roi_payback_months": 12,
+    "average_service_rate_per_day_inr": 15000,
+    "operational_challenges": "RF jamming, anti-drone countermeasures, harsh weather endurance."
+  }
+]

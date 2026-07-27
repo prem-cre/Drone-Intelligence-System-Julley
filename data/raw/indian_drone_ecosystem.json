@@ -1,0 +1,72 @@
+{
+  "market_overview": {
+    "country": "India",
+    "projected_market_size_2030_inr_crores": 30000,
+    "cagr_percent": 38.5,
+    "key_government_initiatives": [
+      "PLI Scheme for Drones (INR 120 Crore allocation with 20% value addition incentive)",
+      "Namo Drone Didi Scheme (Providing 15,000 self-help groups with agricultural drones)",
+      "SVAMITVA Scheme (Mapping 6 lakh+ rural villages using survey drones)",
+      "DigitalSky Platform (Single-window automated air clearance system)"
+    ]
+  },
+  "top_indian_drone_companies": [
+    {
+      "name": "ideaForge Technology",
+      "headquarters": "Navi Mumbai, Maharashtra",
+      "valuation_status": "Publicly Listed (NSE/BSE)",
+      "focus": "Defense, Security, Surveillance & Land Survey",
+      "flagship_products": ["NETRA v4", "SWITCH VTOL", "Q6"]
+    },
+    {
+      "name": "IoTechWorld Avigation",
+      "headquarters": "Gurugram, Haryana",
+      "valuation_status": "Series A Funded (Invested by Dhanuka Agritech)",
+      "focus": "Agricultural Drones & Smart Farming Solutions",
+      "flagship_products": ["Agribot", "Agribot MX", "Agribot A6"]
+    },
+    {
+      "name": "Marut Dronetech",
+      "headquarters": "Hyderabad, Telangana",
+      "valuation_status": "Venture Funded",
+      "focus": "Agricultural spraying, Seedcopter reforestation & Public Health mosquito control",
+      "flagship_products": ["AG30", "Seedcopter", "Zapster"]
+    },
+    {
+      "name": "Garuda Aerospace",
+      "headquarters": "Chennai, Tamil Nadu",
+      "valuation_status": "Series A Funded (Endorsed by MS Dhoni)",
+      "focus": "Agricultural & Surveillance Drones",
+      "flagship_products": ["Kisan Drone 2.0", "Vapour Drone"]
+    },
+    {
+      "name": "Asteria Aerospace",
+      "headquarters": "Bengaluru, Karnataka",
+      "valuation_status": "Subsidiary of Reliance Industries Limited",
+      "focus": "Enterprise GIS, Energy, Infrastructure & Security",
+      "flagship_products": ["A410", "A10", "SkyDeck Cloud Platform"]
+    }
+  ],
+  "dgca_approved_rptos": [
+    {
+      "name": "Indira Gandhi Rashtriya Uran Akademi (IGRUA)",
+      "state": "Uttar Pradesh",
+      "courses_offered": "Small & Micro Category Pilot Training, Night Flying"
+    },
+    {
+      "name": "Telangana State Aviation Academy",
+      "state": "Telangana",
+      "courses_offered": "Agricultural Drone Operations & Remote Pilot Certification"
+    },
+    {
+      "name": "Garuda Aerospace RPTO",
+      "state": "Tamil Nadu",
+      "courses_offered": "Kisan Drone Pilot Certificate & Maintenance Course"
+    },
+    {
+      "name": "Drone Destination RPTO",
+      "state": "Delhi NCR / Haryana",
+      "courses_offered": "Commercial Remote Pilot License (RPL) & Instructor Course"
+    }
+  ]
+}

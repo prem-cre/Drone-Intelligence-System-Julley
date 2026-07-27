@@ -1,0 +1,93 @@
+[
+  {
+    "model_name": "NETRA v4",
+    "manufacturer": "ideaForge",
+    "category": "Micro",
+    "weight_kg": 2.2,
+    "battery_capacity_mah": 12000,
+    "max_payload_kg": 0.5,
+    "max_flight_time_mins": 45,
+    "max_range_km": 10.0,
+    "price_inr_lakhs": 12.5,
+    "primary_use_case": "Surveillance, Security & Border Patrol",
+    "features": ["Day/Night thermal camera", "VTOL launch", "Fail-safe return to home", "NPNT compliant", "Target tracking"]
+  },
+  {
+    "model_name": "Agribot MX",
+    "manufacturer": "IoTechWorld Avigation",
+    "category": "Small",
+    "weight_kg": 14.5,
+    "battery_capacity_mah": 22000,
+    "max_payload_kg": 10.0,
+    "max_flight_time_mins": 25,
+    "max_range_km": 4.0,
+    "price_inr_lakhs": 6.8,
+    "primary_use_case": "Agriculture - Pesticide & Fertilizer Spraying",
+    "features": ["DGCA Type Certified", "Radar terrain following", "Precision flow control", "10L spray tank", "Auto-path planning"]
+  },
+  {
+    "model_name": "AG30",
+    "manufacturer": "Marut Drones",
+    "category": "Medium",
+    "weight_kg": 28.0,
+    "battery_capacity_mah": 30000,
+    "max_payload_kg": 16.0,
+    "max_flight_time_mins": 20,
+    "max_range_km": 5.0,
+    "price_inr_lakhs": 8.5,
+    "primary_use_case": "Agriculture & Large Scale Crop Protection",
+    "features": ["16L dual nozzle spray tank", "Obstacle avoidance radar", "Multi-drone swarm support", "Fast charging battery"]
+  },
+  {
+    "model_name": "A410",
+    "manufacturer": "Asteria Aerospace",
+    "category": "Micro",
+    "weight_kg": 1.8,
+    "battery_capacity_mah": 9500,
+    "max_payload_kg": 0.4,
+    "max_flight_time_mins": 45,
+    "max_range_km": 8.0,
+    "price_inr_lakhs": 9.2,
+    "primary_use_case": "Mapping, Surveying & Pipeline Inspection",
+    "features": ["High resolution 4K RGB payload", "4x optical zoom", "Hot-swappable battery", "Encrypted link"]
+  },
+  {
+    "model_name": "Kisan Drone 2.0",
+    "manufacturer": "Garuda Aerospace",
+    "category": "Small",
+    "weight_kg": 12.0,
+    "battery_capacity_mah": 16000,
+    "max_payload_kg": 10.0,
+    "max_flight_time_mins": 22,
+    "max_range_km": 3.5,
+    "price_inr_lakhs": 4.5,
+    "primary_use_case": "Agricultural Spraying & Crop Health Monitoring",
+    "features": ["Subsidy eligible under Namo Drone Didi scheme", "Simple smartphone controller", "Anamorphic nozzle spray"]
+  },
+  {
+    "model_name": "Defender VTOL",
+    "manufacturer": "Throttle Aerospace Systems",
+    "category": "Small",
+    "weight_kg": 6.5,
+    "battery_capacity_mah": 18000,
+    "max_payload_kg": 1.5,
+    "max_flight_time_mins": 75,
+    "max_range_km": 30.0,
+    "price_inr_lakhs": 15.0,
+    "primary_use_case": "Long-range Medical Delivery & Emergency Logistics",
+    "features": ["Hybrid VTOL fixed-wing design", "Cold-chain temperature payload box", "IP54 weather resistance"]
+  },
+  {
+    "model_name": "Viper 25",
+    "manufacturer": "Paras Aerospace",
+    "category": "Small",
+    "weight_kg": 8.0,
+    "battery_capacity_mah": 14000,
+    "max_payload_kg": 2.0,
+    "max_flight_time_mins": 40,
+    "max_range_km": 12.0,
+    "price_inr_lakhs": 7.5,
+    "primary_use_case": "Industrial Solar & Powerline Thermal Inspection",
+    "features": ["Radiometric thermal camera", "Automated power line tracking", "Real-time AI fault detection"]
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "jurisdiction": "India - Directorate General of Civil Aviation (DGCA)",
+  "governing_statute": "Drone Rules 2021 (amended 2022 & 2023)",
+  "drone_categories": [
+    {
+      "category": "Nano",
+      "weight_range": "<= 250 grams",
+      "max_speed_m_s": 15,
+      "uin_required": false,
+      "pilot_license_required": false,
+      "npnt_required": false,
+      "operating_rules": "Permitted up to 50 feet (15m) AGL in Green Zones. No pilot certificate needed for non-commercial operations."
+    },
+    {
+      "category": "Micro",
+      "weight_range": "250 grams to 2 kg",
+      "max_speed_m_s": 25,
+      "uin_required": true,
+      "pilot_license_required": true,
+      "npnt_required": true,
+      "operating_rules": "Permitted up to 200 feet (60m) AGL in Green Zones. Requires UIN registration on DigitalSky and Remote Pilot Certificate (RPC) for commercial use."
+    },
+    {
+      "category": "Small",
+      "weight_range": "2 kg to 25 kg",
+      "max_speed_m_s": 35,
+      "uin_required": true,
+      "pilot_license_required": true,
+      "npnt_required": true,
+      "operating_rules": "Permitted up to 400 feet (120m) AGL in Green Zones. Requires UIN, RPC from DGCA-approved RPTO, maintenance logbook, and mandatory insurance."
+    },
+    {
+      "category": "Medium",
+      "weight_range": "25 kg to 150 kg",
+      "max_speed_m_s": 45,
+      "uin_required": true,
+      "pilot_license_required": true,
+      "npnt_required": true,
+      "operating_rules": "Requires special clearance, operator permit, and strict adherence to designated air corridors. Mainly used for heavy agricultural spraying and cargo logistics."
+    },
+    {
+      "category": "Large",
+      "weight_range": "> 150 kg",
+      "max_speed_m_s": 60,
+      "uin_required": true,
+      "pilot_license_required": true,
+      "npnt_required": true,
+      "operating_rules": "Governed under Aircraft Rules 1937 and specialized DGCA experimental/military operational approvals."
+    }
+  ],
+  "airspace_zones": [
+    {
+      "zone": "Green Zone",
+      "description": "Airspace up to 400 ft (120 m) not designated as yellow or red zone. Located beyond 8 km from perimeter of an operational airport.",
+      "permission_needed": "No prior flight permission required on DigitalSky. Just log flight plan before takeoff."
+    },
+    {
+      "zone": "Yellow Zone",
+      "description": "Controlled airspace up to 400 ft located within 8-12 km from airport perimeter, or above 400 ft in green zones.",
+      "permission_needed": "Prior flight permission mandatory via Air Traffic Control (ATC) on DigitalSky platform."
+    },
+    {
+      "zone": "Red Zone",
+      "description": "No-fly zone near international borders, military bases, Rashtrapati Bhavan, nuclear plants, and within 5 km of international airport perimeter.",
+      "permission_needed": "Strictly prohibited without explicit Central Government clearance."
+    }
+  ],
+  "penalties_and_fines": [
+    {
+      "violation": "Flying in Red Zone without authorization",
+      "penalty_inr": 100000,
+      "legal_action": "Confiscation of drone, revocation of RPC, potential prosecution under IPC/Bharatiya Nyaya Sanhita."
+    },
+    {
+      "violation": "Operating without valid UIN registration",
+      "penalty_inr": 25000,
+      "legal_action": "Grounding of aircraft and fine under Rule 49 of Drone Rules 2021."
+    },
+    {
+      "violation": "Commercial operation without Remote Pilot Certificate (RPC)",
+      "penalty_inr": 50000,
+      "legal_action": "Fine on operator and remote pilot."
+    },
+    {
+      "violation": "Non-compliance with NPNT (No Permission No Take-off) module",
+      "penalty_inr": 50000,
+      "legal_action": "Suspension of type certificate for manufacturer and fine on operator."
+    }
+  ],
+  "certification_and_imports": {
+    "type_certificate": "Issued by DGCA based on Quality Council of India (QCI) evaluation.",
+    "import_policy": "Import of completely built-in (CBU) drones banned since Feb 2022 to promote Make in India, except for defense and R&D. Import of drone components is allowed.",
+    "rpto_rules": "Remote Pilot Training Organizations must be DGCA authorized. License valid for 10 years for candidates aged 18-65 who passed Class 10."
+  }
+}
