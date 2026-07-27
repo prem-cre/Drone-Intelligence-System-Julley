@@ -1,0 +1,67 @@
+[
+  {
+    "route_id": "RT-785",
+    "origin": "Shillong Hub",
+    "destination": "Cherrapunji PHC",
+    "distance_km": 48.5,
+    "road_travel_time_mins": 218,
+    "drone_flight_time_mins": 53,
+    "time_saved_percent": 75.6,
+    "terrain_elevation_m": 1200,
+    "recommended_payload_kg": 2.5,
+    "temperature_control_required": true,
+    "digital_sky_permission": "GREEN_ZONE_PERMITTED"
+  },
+  {
+    "route_id": "RT-852",
+    "origin": "Dehradun Hub",
+    "destination": "Uttarkashi Hospital",
+    "distance_km": 72.0,
+    "road_travel_time_mins": 324,
+    "drone_flight_time_mins": 79,
+    "time_saved_percent": 75.6,
+    "terrain_elevation_m": 1800,
+    "recommended_payload_kg": 2.5,
+    "temperature_control_required": true,
+    "digital_sky_permission": "GREEN_ZONE_PERMITTED"
+  },
+  {
+    "route_id": "RT-253",
+    "origin": "Shimla Hub",
+    "destination": "Kinnaur Medical Center",
+    "distance_km": 95.0,
+    "road_travel_time_mins": 427,
+    "drone_flight_time_mins": 104,
+    "time_saved_percent": 75.6,
+    "terrain_elevation_m": 2200,
+    "recommended_payload_kg": 2.5,
+    "temperature_control_required": true,
+    "digital_sky_permission": "GREEN_ZONE_PERMITTED"
+  },
+  {
+    "route_id": "RT-423",
+    "origin": "Imphal Hub",
+    "destination": "Karang Island PHC",
+    "distance_km": 32.0,
+    "road_travel_time_mins": 144,
+    "drone_flight_time_mins": 35,
+    "time_saved_percent": 75.6,
+    "terrain_elevation_m": 450,
+    "recommended_payload_kg": 2.5,
+    "temperature_control_required": true,
+    "digital_sky_permission": "GREEN_ZONE_PERMITTED"
+  },
+  {
+    "route_id": "RT-842",
+    "origin": "Guwahati Hub",
+    "destination": "Barpeta Rural Clinic",
+    "distance_km": 60.0,
+    "road_travel_time_mins": 270,
+    "drone_flight_time_mins": 66,
+    "time_saved_percent": 75.6,
+    "terrain_elevation_m": 850,
+    "recommended_payload_kg": 2.5,
+    "temperature_control_required": true,
+    "digital_sky_permission": "GREEN_ZONE_PERMITTED"
+  }
+]
