@@ -1,3 +1,7 @@
+"""
+Seeds the ChromaDB vector store with preprocessed document chunks.
+Uses LangChain Document objects and the RAGPipeline.ingest_documents() method.
+"""
 import os
 import sys
 import json
@@ -18,10 +22,10 @@ def seed_database():
     with open(PROCESSED_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-    print(f"[Seed] Indexing {len(chunks)} chunks into vector store...")
+    print(f"[Seed] Indexing {len(chunks)} chunks into ChromaDB via LangChain...")
     pipeline = RAGPipeline()
     count = pipeline.ingest_documents(chunks)
-    print(f"[Seed] Successfully seeded {count} chunks into VectorStore.")
+    print(f"[Seed] Successfully seeded {count} chunks into ChromaDB.")
 
 if __name__ == "__main__":
     seed_database()

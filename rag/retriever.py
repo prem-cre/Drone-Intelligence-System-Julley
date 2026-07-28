@@ -1,25 +1,25 @@
-from typing import List, Dict, Any
-from rag.vector_store import VectorStore
+"""
+Retriever module - now delegates to LangChain vector store.
+Kept for backward compatibility with any imports.
+"""
+from typing import List
+from langchain_core.documents import Document
+from rag.vector_store import get_vectorstore, similarity_search
 
-class Retriever:
-    def __init__(self, vector_store: VectorStore = None):
-        self.vector_store = vector_store or VectorStore()
 
-    def get_relevant_documents(self, query: str, top_k: int = 4, category: str = None) -> List[Dict[str, Any]]:
-        results = self.vector_store.similarity_search(query=query, top_k=top_k, filter_category=category)
-        return results
+def get_relevant_documents(query: str, top_k: int = 5) -> List[Document]:
+    """Retrieves relevant LangChain Documents from ChromaDB."""
+    return similarity_search(query, top_k=top_k)
 
-    def format_context_with_citations(self, docs: List[Dict[str, Any]]) -> str:
-        formatted_blocks = []
-        for idx, d in enumerate(docs, 1):
-            source = d["metadata"].get("source", "Unknown Document")
-            title = d["metadata"].get("title", "Reference")
-            score = d.get("score", 0.0)
-            
-            block = (
-                f"[Citation {idx}]: {title} (Source: {source}, Relevance: {score})\n"
-                f"{d['content']}\n"
-            )
-            formatted_blocks.append(block)
-            
-        return "\n-------------------\n".join(formatted_blocks)
+
+def format_context(docs: List[Document]) -> str:
+    """Formats retrieved documents into a readable context string with citations."""
+    blocks = []
+    for idx, doc in enumerate(docs, 1):
+        source = doc.metadata.get("source", "Unknown")
+        title = doc.metadata.get("title", "Reference")
+        score = doc.metadata.get("score", 0.0)
+        blocks.append(
+            f"[Citation {idx}]: {title} (Source: {source}, Score: {score})\n{doc.page_content}"
+        )
+    return "\n---\n".join(blocks)

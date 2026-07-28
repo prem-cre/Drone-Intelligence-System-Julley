@@ -216,16 +216,9 @@ function AssistantMessage({ msg }: { msg: Msg }) {
             </span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showCitations ? "rotate-180" : ""}`} />
           </button>
-          <AnimatePresence>
-            {showCitations && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="px-4 pb-3 space-y-2">
-                  {res.citations.map((c, i) => (
+          {showCitations && (
+            <div className="px-4 pb-3 space-y-2">
+              {res.citations.map((c, i) => (
                     <div key={i} className="rounded-lg border border-slate-800 bg-slate-950/60 p-3">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-xs font-medium text-slate-200 truncate">{c.title}</span>
@@ -238,9 +231,8 @@ function AssistantMessage({ msg }: { msg: Msg }) {
                     </div>
                   ))}
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -1,20 +1,151 @@
-from typing import Dict, Any, List
-from rag.vector_store import VectorStore
-from rag.retriever import Retriever
-from rag.generator import RAGGenerator
+"""
+RAG Pipeline built with LangGraph StateGraph.
+
+Flow:  retrieve → rerank → generate
+
+Uses:
+- LangChain Chroma for vector retrieval
+- MultiQueryRetriever (Gemini) for query expansion
+- Reciprocal Rank Fusion (RRF) + BM25 for reranking
+- Google Gemini (gemini-2.0-flash) for response generation
+"""
+import os
+import sys
+from typing import TypedDict, List, Dict, Any
+
+from langchain_core.documents import Document
+from langgraph.graph import StateGraph, END
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+from rag.vector_store import get_vectorstore, add_documents, similarity_search
+from rag.multi_query import manual_query_expansion, get_multi_query_retriever
+from rag.reranker import reciprocal_rank_fusion
+from rag.generator import generate_response
+
+
+# ── LangGraph State ──
+class RAGState(TypedDict):
+    query: str
+    expanded_queries: List[str]
+    retrieved_docs: List[List[Document]]
+    reranked_docs: List[Document]
+    answer: str
+    citations: List[Dict[str, Any]]
+
+
+# ── Node Functions ──
+
+def retrieve_node(state: RAGState) -> dict:
+    """Retrieves documents using multi-query expansion + vector similarity search."""
+    query = state["query"]
+    vs = get_vectorstore()
+
+    # Try LangChain MultiQueryRetriever first
+    try:
+        retriever = get_multi_query_retriever(vs)
+        docs = retriever.invoke(query)
+        print(f"[RAG:Retrieve] MultiQueryRetriever returned {len(docs)} documents.")
+        # Wrap in a single list for RRF compatibility
+        return {"retrieved_docs": [docs]}
+    except Exception as e:
+        print(f"[RAG:Retrieve] MultiQueryRetriever failed ({e}), using manual expansion.")
+
+    # Fallback: manual query expansion + individual searches
+    queries = manual_query_expansion(query)
+    doc_lists = []
+    for q in queries:
+        results = similarity_search(q, top_k=5)
+        if results:
+            doc_lists.append(results)
+    print(f"[RAG:Retrieve] Manual expansion returned {sum(len(dl) for dl in doc_lists)} total candidates across {len(doc_lists)} queries.")
+    return {"retrieved_docs": doc_lists, "expanded_queries": queries}
+
+
+def rerank_node(state: RAGState) -> dict:
+    """Reranks retrieved documents using Reciprocal Rank Fusion + BM25."""
+    doc_lists = state.get("retrieved_docs", [])
+    query = state["query"]
+
+    if not doc_lists or all(len(dl) == 0 for dl in doc_lists):
+        print("[RAG:Rerank] No documents to rerank.")
+        return {"reranked_docs": []}
+
+    reranked = reciprocal_rank_fusion(doc_lists, query=query, top_n=4)
+    print(f"[RAG:Rerank] RRF reranked to top {len(reranked)} documents.")
+    return {"reranked_docs": reranked}
+
+
+def generate_node(state: RAGState) -> dict:
+    """Generates final answer using Gemini LLM with retrieved context."""
+    docs = state.get("reranked_docs", [])
+    query = state["query"]
+
+    result = generate_response(query, docs)
+    return {"answer": result["answer"], "citations": result["citations"]}
+
+
+# ── Build LangGraph ──
+
+def build_rag_graph() -> StateGraph:
+    """Constructs the LangGraph RAG pipeline: retrieve → rerank → generate."""
+    graph = StateGraph(RAGState)
+
+    graph.add_node("retrieve", retrieve_node)
+    graph.add_node("rerank", rerank_node)
+    graph.add_node("generate", generate_node)
+
+    graph.set_entry_point("retrieve")
+    graph.add_edge("retrieve", "rerank")
+    graph.add_edge("rerank", "generate")
+    graph.add_edge("generate", END)
+
+    return graph.compile()
+
+
+# ── High-Level Pipeline Class ──
 
 class RAGPipeline:
-    def __init__(self, collection_name: str = "drone_knowledge"):
-        self.vector_store = VectorStore(collection_name=collection_name)
-        self.retriever = Retriever(vector_store=self.vector_store)
-        self.generator = RAGGenerator()
+    """
+    Production RAG Pipeline powered by LangChain + LangGraph.
+
+    Architecture:
+    - LangChain Chroma for persistent vector storage
+    - MultiQueryRetriever with Gemini LLM for query expansion
+    - Reciprocal Rank Fusion (RRF) + BM25 for hybrid reranking
+    - Google Gemini (gemini-2.0-flash) for response generation
+    - LangGraph StateGraph for orchestration (retrieve → rerank → generate)
+    """
+
+    def __init__(self):
+        self.graph = build_rag_graph()
+        print("[RAGPipeline] LangGraph RAG pipeline initialized (retrieve -> rerank -> generate).")
 
     def query(self, question: str, top_k: int = 4, category: str = None) -> Dict[str, Any]:
-        docs = self.retriever.get_relevant_documents(query=question, top_k=top_k, category=category)
-        formatted_context = self.retriever.format_context_with_citations(docs)
-        result = self.generator.generate_response(query=question, context=formatted_context, docs=docs)
-        return result
+        """Execute the full RAG pipeline for a user question."""
+        initial_state: RAGState = {
+            "query": question,
+            "expanded_queries": [],
+            "retrieved_docs": [],
+            "reranked_docs": [],
+            "answer": "",
+            "citations": [],
+        }
+        result = self.graph.invoke(initial_state)
+        return {
+            "answer": result.get("answer", ""),
+            "citations": result.get("citations", []),
+        }
 
     def ingest_documents(self, docs: List[Dict[str, Any]]) -> int:
-        self.vector_store.add_documents(docs)
-        return len(docs)
+        """Ingests document dicts into ChromaDB via LangChain."""
+        lc_docs = []
+        for d in docs:
+            lc_docs.append(Document(
+                page_content=d["content"],
+                metadata=d.get("metadata", {}),
+            ))
+        add_documents(lc_docs)
+        return len(lc_docs)

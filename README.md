@@ -1,78 +1,123 @@
-# Drone Intelligence System (Julley) 🛸
+# 🇮🇳 Drone Intelligence System for India
 
-An end-to-end AI-powered **Drone Intelligence Platform** integrating Retrieval-Augmented Generation (RAG), real-time flight telemetry analytics, DGCA regulations knowledge base, MCP server tooling, and a web dashboard (**Drone Sky Wisdom**).
+An end-to-end production AI/ML application engineered for **Julley's AI Internship Project (Round 1)**.
+
+The system serves as India's comprehensive drone knowledge hub, featuring a **Multi-Query RAG Pipeline** with persistent **ChromaDB**, **Model Context Protocol (MCP) Calculation Server**, **FastAPI Backend**, and interactive **React Dashboard**.
+
+---
+
+## 🏛 System Architecture
+
+```
+                          User Interface (React + Tailwind CSS Dashboard)
+                                               │
+                                               ▼
+                                 FastAPI Backend (/api/routes)
+                                               │
+                 ┌─────────────────────────────┼─────────────────────────────┐
+                 │                             │                             │
+                 ▼                             ▼                             ▼
+       RAG System Pipeline              MCP Tool Server              Analytics & Logging
+  (Embeddings + ChromaDB + LLM)   (Flight, ROI, Compliance, Rec)    (Query stats, latency)
+                 │                             │
+                 ▼                             ▼
+   Indian Drone Knowledge Base           Domain Calculators
+ (DGCA Rules, Specs, Startups)        & Regulatory Logic Engine
+```
 
 ---
 
 ## 🌟 Key Features
 
-- 📚 **DGCA & Indian Drone Regulations RAG Engine**: Vector search and context-aware Q&A over official DGCA handbooks, drone policies, airspace rules, and industry use-cases.
-- 📊 **Telemetry & ROI Analytics**: Synthetic flight telemetry analysis, farm ROI simulations, and logistics mission planning.
-- 🔌 **MCP Server**: Model Context Protocol tool definitions for drone flight query execution and automated regulation lookup.
-- 💻 **Drone Sky Wisdom Web Dashboard**: React + Vite + TanStack app featuring dynamic analytics, interactive ROI calculators, document explorer, and AI assistant chat.
-- ⚙️ **Data Preprocessing & Synthetic Generation**: Automated data processing and vector database seeding pipelines.
+### 1. Advanced RAG Pipeline (`/rag`)
+- **Semantic Section Chunker**: Header-aware (`#`, `##`, `###`) recursive splitting.
+- **Persistent ChromaDB Store**: Stores vector representations using Open-Source SentenceTransformers (`all-MiniLM-L6-v2` / `BAAI/bge-small-en-v1.5`).
+- **Multi-Query Expansion**: Generates 3-4 query variations to maximize vector search recall.
+- **Hybrid RRF + BM25 Reranker**: Reciprocal Rank Fusion re-ranking combining semantic vector distance + term frequency match.
+- **Gemini LLM Integration**: Synthesizes responses using Google Gemini API with explicit source citations.
+
+### 2. MCP Server & Tool Suite (`/mcp_server`)
+- `flight_time_calculator`: Calculates duration, range, battery consumption curve.
+- `roi_calculator`: Financial ROI timeline, payback period in months, 3-year projection.
+- `compliance_checker`: Evaluates DGCA Drone Rules 2021 across Green/Yellow/Red zones.
+- `drone_recommender`: Ranks Indian drone models (ideaForge, Marut, Garuda, IoTechWorld) matching budget & specs.
+
+### 3. FastAPI REST Backend (`/api`)
+- `POST /api/chat`
+- `POST /api/calculate/flight-time`
+- `POST /api/calculate/roi`
+- `POST /api/check/compliance`
+- `POST /api/recommend/drone`
+- `GET /health`
+
+### 4. Interactive React Dashboard (`/frontend`)
+- React 19 + TypeScript (`.tsx`) + Tailwind CSS + Lucide Icons + Recharts.
+- Dark theme with glassmorphic cards, tool cards, citations drawer, and session export.
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-Drone-Intelligence-System/
-├── api/                   # Backend API service models, routes, and services
-├── data/                  # Raw handbooks, processed chunks, synthetic telemetry & ROI data
-│   ├── raw/               # DGCA regulations, drone models, case studies
-│   ├── processed/         # Pre-chunked RAG vector dataset
-│   └── synthetic/         # Telemetry CSVs, farm ROI simulations, logistics scenarios
-├── docs/                  # Project documentation & guides
-├── mcp_server/            # Model Context Protocol (MCP) server & custom tools
-├── rag/                   # RAG architecture: Embeddings, Vector Store, Retriever, Generator
-├── scripts/               # Data preprocessing, synthetic data generator, vector DB seeders
-├── tests/                 # Integration and unit test suite
-└── drone-sky-wisdom-main/ # Web frontend application (React + Vite + TanStack)
+drone-intelligence-system/
+├── data/
+│   ├── raw/           # DGCA handbook, drone specs, use cases, ecosystem
+│   ├── processed/     # Chunked JSON vector documents & ChromaDB
+│   └── synthetic/     # Flight telemetry, farm ROI simulations, logistics
+├── rag/               # Chunker, Embeddings, ChromaDB, MultiQuery, Reranker, Generator, Pipeline
+├── mcp_server/        # MCP server & calculation tools
+│   └── tools/
+├── api/               # FastAPI entry point, routes, schemas, services
+│   ├── routes/
+│   ├── models/
+│   └── services/
+├── frontend/          # React + Vite + Tailwind CSS dashboard
+│   ├── public/
+│   └── src/
+├── tests/             # Pytest test suite (14 passing tests)
+├── scripts/           # Data generation, preprocessing, seeding scripts
+├── docs/              # Architecture diagram, API docs, user guide
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start Guide
 
-### Backend & RAG Engine Setup
+### 1. Install & Seed Backend
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/prem-cre/Drone-Intelligence-System-Julley.git
-   cd Drone-Intelligence-System-Julley
-   ```
+# Generate synthetic data & seed ChromaDB vector store
+python scripts/generate_synthetic_data.py
+python scripts/preprocess_data.py
+python scripts/seed_vector_db.py
 
-2. **Install Python dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Start FastAPI server
+python -m uvicorn api.main:app --port 8000 --reload
+```
 
-3. **Preprocess data and seed vector database**:
-   ```bash
-   python scripts/preprocess_data.py
-   python scripts/seed_vector_db.py
-   ```
+### 2. Install & Start Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Frontend Application Setup (Drone Sky Wisdom)
-
-1. **Navigate to the frontend directory**:
-   ```bash
-   cd drone-sky-wisdom-main
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install # or bun install
-   ```
-
-3. **Launch dev server**:
-   ```bash
-   npm run dev
-   ```
+### 3. Run Automated Test Suite
+```bash
+pytest tests/
+```
 
 ---
 
-## 📜 License
-
-MIT License. Developed for Drone Intelligence Platform - Julley project.
+## 🐳 Docker Deployment
+```bash
+docker-compose up --build
+```
+- Backend API: `http://localhost:8000`
+- Frontend Dashboard: `http://localhost:5173`
