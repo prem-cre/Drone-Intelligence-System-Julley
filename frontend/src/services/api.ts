@@ -1,7 +1,7 @@
 // Frontend mock API service with a toggle for a real backend.
 // Set USE_MOCK_API=false to use `http://localhost:8000`.
 
-export const USE_MOCK_API = true;
+export const USE_MOCK_API = false;
 const API_BASE = "http://localhost:8000";
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
