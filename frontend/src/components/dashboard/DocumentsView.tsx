@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { UploadCloud, FileText, Trash2, CheckCircle2, Loader2 } from "lucide-react";
 
 interface Doc {

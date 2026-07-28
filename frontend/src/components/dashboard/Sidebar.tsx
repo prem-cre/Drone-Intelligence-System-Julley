@@ -1,5 +1,4 @@
 import { Bot, Calculator, FolderUp, LineChart, Plane, ChevronLeft } from "lucide-react";
-import { motion } from "framer-motion";
 import type { ViewKey } from "./types";
 
 const items: { key: ViewKey; label: string; icon: typeof Bot; hint: string }[] = [
@@ -51,10 +50,7 @@ export function Sidebar({ active, onChange, collapsed, onToggle }: Props) {
               }`}
             >
               {isActive && (
-                <motion.div
-                  layoutId="sidebar-active"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
-                />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]" />
               )}
               <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-cyan-400" : ""}`} />
               {!collapsed && (

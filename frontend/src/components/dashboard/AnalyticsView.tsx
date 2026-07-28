@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Activity, Database, Gauge, Layers } from "lucide-react";
 import {
   CartesianGrid,

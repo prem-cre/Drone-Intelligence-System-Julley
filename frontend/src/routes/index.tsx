@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { ChatView, type Msg } from "@/components/dashboard/ChatView";
@@ -84,21 +83,12 @@ function Dashboard() {
           </div>
 
           <main className="flex-1 overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={view}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="h-full overflow-y-auto"
-              >
-                {view === "chat" && <ChatView messages={messages} setMessages={setMessages} />}
-                {view === "calculators" && <CalculatorsView />}
-                {view === "documents" && <DocumentsView />}
-                {view === "analytics" && <AnalyticsView />}
-              </motion.div>
-            </AnimatePresence>
+            <div key={view} className="h-full overflow-y-auto">
+              {view === "chat" && <ChatView messages={messages} setMessages={setMessages} />}
+              {view === "calculators" && <CalculatorsView />}
+              {view === "documents" && <DocumentsView />}
+              {view === "analytics" && <AnalyticsView />}
+            </div>
           </main>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, Bot, User, BookOpen, Wrench, ChevronDown, Paperclip, Loader2 } from "lucide-react";
 import { api, type ChatResponse } from "@/services/api";
 
@@ -94,14 +93,11 @@ export function ChatView({ messages, setMessages }: {
       {/* Feed */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6">
         {messages.length === 0 && <EmptyState onPick={send} />}
-        <AnimatePresence initial={false}>
-          {messages.map((m) => (
-            <motion.div
-              key={m.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex gap-3 ${m.role === "user" ? "justify-end" : "justify-start"}`}
-            >
+        {messages.map((m) => (
+          <div
+            key={m.id}
+            className={`flex gap-3 animate-fade-in ${m.role === "user" ? "justify-end" : "justify-start"}`}
+          >
               {m.role === "assistant" && (
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 grid place-items-center shrink-0 shadow-lg shadow-cyan-500/20">
                   <Bot className="w-4 h-4 text-white" />
@@ -121,9 +117,8 @@ export function ChatView({ messages, setMessages }: {
                   <User className="w-4 h-4 text-slate-300" />
                 </div>
               )}
-            </motion.div>
+            </div>
           ))}
-        </AnimatePresence>
 
         {loading && (
           <div className="flex gap-3">
