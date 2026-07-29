@@ -34,3 +34,9 @@ def test_reranker():
     results = reciprocal_rank_fusion([doc_list_1, doc_list_2], query="micro drone rules", top_n=2)
     assert len(results) == 2
     assert results[0].metadata["score"] > 0
+
+def test_hybrid_retriever():
+    from rag.retriever import get_relevant_documents
+    results = get_relevant_documents("micro drone green zone rules", top_k=2, collection_name="drone_intelligence_hub")
+    assert isinstance(results, list)
+
