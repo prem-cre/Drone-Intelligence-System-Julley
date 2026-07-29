@@ -230,7 +230,6 @@ function AssistantMessage({ msg }: { msg: Msg }) {
                       <p className="mt-1.5 text-xs text-slate-400 italic">"{c.snippet}"</p>
                     </div>
                   ))}
-                </div>
             </div>
           )}
         </div>
