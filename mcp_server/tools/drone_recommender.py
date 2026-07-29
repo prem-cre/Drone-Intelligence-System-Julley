@@ -60,6 +60,16 @@ DRONES_CATALOGUE: List[Dict[str, Any]] = [
         "sector": "Logistics",
         "pros": ["VTOL cargo", "BVLOS capable"],
         "cons": ["Regulatory heavy"]
+    },
+    {
+        "model_name": "Trinity F90+",
+        "manufacturer": "Quidich (India Ops)",
+        "price_lakhs": 18,
+        "flight_time": 60,
+        "payload": 1,
+        "sector": "Survey",
+        "pros": ["Fixed-wing efficiency", "Large area mapping"],
+        "cons": ["Runway launch needs space"]
     }
 ]
 
