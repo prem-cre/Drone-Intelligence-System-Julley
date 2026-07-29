@@ -160,14 +160,22 @@ def _evaluate_tool_relevance(message: str) -> Tuple[Optional[str], float, dict]:
     return (None, 0.0, {})
 
 
-def handle_chat(message: str) -> Dict[str, Any]:
+from api.services.history_service import save_chat_message
+
+
+def handle_chat(message: str, session_id: str = "default") -> Dict[str, Any]:
     """
     Evaluates query relevance:
     - If MCP Tool relevance >= 95%, calls specific MCP tool + RAG context.
     - If MCP Tool relevance < 95%, performs pure RAG document retrieval.
+    Persists user message and assistant answer to SQLite history.
     """
+    # 1. Save user message to persistent history
+    user_msg_id = f"user-{os.urandom(4).hex()}"
+    save_chat_message(session_id=session_id, role="user", content=message, msg_id=user_msg_id)
+
     tool_name, relevance_score, tool_params = _evaluate_tool_relevance(message)
-    print(f"[RAG Router] Query: '{message}' | Tool: '{tool_name}' | Relevance: {relevance_score * 100:.1f}%")
+    print(f"[RAG Router] Session: '{session_id}' | Query: '{message}' | Tool: '{tool_name}' | Relevance: {relevance_score * 100:.1f}%")
 
     tool_calls: List[ToolCall] = []
     mcp_result = None
@@ -199,11 +207,22 @@ def handle_chat(message: str) -> Dict[str, Any]:
                 )
                 for c in rag_res.get("citations", [])
             ]
-            return ChatResponse(
+            response_payload = ChatResponse(
                 answer=rag_res.get("answer", "No relevant context found."),
                 citations=citations,
                 tool_calls=[],
             ).model_dump()
+
+            # Save assistant message to persistent history
+            asst_msg_id = f"asst-{os.urandom(4).hex()}"
+            save_chat_message(
+                session_id=session_id,
+                role="assistant",
+                content=response_payload["answer"],
+                msg_id=asst_msg_id,
+                response_data=response_payload,
+            )
+            return response_payload
         except Exception as e:
             print(f"[RAG Router] LangGraph pipeline fallback ({e})")
 
@@ -230,8 +249,20 @@ def handle_chat(message: str) -> Dict[str, Any]:
         for c in gen_result.get("citations", [])
     ]
 
-    return ChatResponse(
+    response_payload = ChatResponse(
         answer=gen_result.get("answer", "No response generated."),
         citations=citations,
         tool_calls=tool_calls,
     ).model_dump()
+
+    # Save assistant message to persistent history
+    asst_msg_id = f"asst-{os.urandom(4).hex()}"
+    save_chat_message(
+        session_id=session_id,
+        role="assistant",
+        content=response_payload["answer"],
+        msg_id=asst_msg_id,
+        response_data=response_payload,
+    )
+    return response_payload
+

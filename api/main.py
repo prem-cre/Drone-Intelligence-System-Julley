@@ -61,16 +61,41 @@ def health():
     return {"status": "ok"}
 
 
+from api.models.schemas import (
+    ChatRequest, ChatResponse, ChatHistoryResponse, ChatMessageItem,
+    FlightTimeRequest, FlightTimeResponse,
+    RoiRequest, RoiResponse,
+    ComplianceRequest, ComplianceResponse,
+    RecommendRequest, DroneModel,
+)
+from api.services.history_service import get_chat_history, clear_chat_history
+
+
 # ──────────────────────────────────────
-# POST /api/chat  —  RAG + MCP hybrid
+# POST /api/chat  —  RAG + MCP hybrid with persistent history
 # ──────────────────────────────────────
 @app.post("/api/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     try:
-        result = handle_chat(req.message)
+        session_id = req.session_id or "default"
+        result = handle_chat(req.message, session_id=session_id)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/chat/history/{session_id}", response_model=ChatHistoryResponse)
+def api_get_chat_history(session_id: str):
+    history = get_chat_history(session_id)
+    items = [ChatMessageItem(**h) for h in history]
+    return ChatHistoryResponse(session_id=session_id, messages=items)
+
+
+@app.delete("/api/chat/history/{session_id}")
+def api_clear_chat_history(session_id: str):
+    clear_chat_history(session_id)
+    return {"status": "success", "message": f"Cleared history for session '{session_id}'"}
+
 
 
 # ──────────────────────────────────────

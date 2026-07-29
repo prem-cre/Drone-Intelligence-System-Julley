@@ -46,3 +46,28 @@ def test_recommend_drone_endpoint():
     })
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+def test_chat_history_persistence():
+    session_id = "test-session-123"
+    client.delete(f"/api/chat/history/{session_id}")
+    
+    # 1. Post chat message with session_id
+    res = client.post("/api/chat", json={"message": "What is NPNT?", "session_id": session_id})
+    assert res.status_code == 200
+    
+    # 2. Fetch session history
+    h_res = client.get(f"/api/chat/history/{session_id}")
+    assert h_res.status_code == 200
+    history = h_res.json()["messages"]
+    assert len(history) == 2  # 1 user + 1 assistant message
+    assert history[0]["role"] == "user"
+    assert history[0]["content"] == "What is NPNT?"
+    assert history[1]["role"] == "assistant"
+    
+    # 3. Clear session history
+    d_res = client.delete(f"/api/chat/history/{session_id}")
+    assert d_res.status_code == 200
+    
+    h_empty = client.get(f"/api/chat/history/{session_id}")
+    assert len(h_empty.json()["messages"]) == 0
+

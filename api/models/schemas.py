@@ -4,6 +4,7 @@ from typing import List, Optional, Dict, Any
 # ── Chat ──
 class ChatRequest(BaseModel):
     message: str
+    session_id: Optional[str] = "default"
 
 class Citation(BaseModel):
     title: str
@@ -20,6 +21,18 @@ class ChatResponse(BaseModel):
     answer: str
     citations: List[Citation]
     tool_calls: List[ToolCall]
+
+class ChatMessageItem(BaseModel):
+    id: str
+    role: str
+    content: str
+    response: Optional[ChatResponse] = None
+    timestamp: Optional[str] = None
+
+class ChatHistoryResponse(BaseModel):
+    session_id: str
+    messages: List[ChatMessageItem]
+
 
 # ── Flight Time ──
 class FlightTimeRequest(BaseModel):
