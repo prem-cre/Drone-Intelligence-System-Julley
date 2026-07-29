@@ -1,6 +1,6 @@
 """
 RAG response generator using LangChain + Google Gemini LLM.
-Supports both standard document RAG synthesis and MCP Tool-assisted response generation.
+Retrieves top relevant chunks, sends to LLM, and explicitly includes document sources in responses.
 """
 import os
 from typing import List, Dict, Any, Optional
@@ -10,10 +10,10 @@ SYSTEM_PROMPT = """You are India's premier Drone Intelligence System AI assistan
 Your goal is to provide accurate, authoritative, and structured technical and regulatory answers regarding drones in India.
 
 Rules:
-1. When MCP Tool execution data is provided, incorporate the exact numbers and metrics into your answer.
-2. Integrate retrieved knowledge context and citations seamlessly.
-3. Structure your response cleanly using GitHub-style markdown (headings, bold text, bullet points, advice quotes).
-4. Always include explicit source citations inline (e.g. [Source: DGCA Handbook / DigitalSky]).
+1. Base your answer strictly on the provided Retrieved Context chunks.
+2. Always explicitly cite the source document name for every fact or rule (e.g. `[Source: dgca_regulations_handbook.md]` or `[Source: drone_models.json]`).
+3. Structure your response cleanly using GitHub-style markdown (headings, bold text, bullet points).
+4. When MCP Tool execution data is provided, incorporate the exact calculated numbers and metrics into your answer.
 """
 
 
@@ -24,25 +24,25 @@ def generate_response(
     tool_result: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
-    Generates a RAG response from retrieved documents and optional MCP tool output.
-    Uses Gemini LLM via LangChain when available, otherwise falls back to domain synthesis.
+    Generates a RAG response from retrieved top chunks and optional MCP tool output.
+    Explicitly includes source document citations in both the LLM answer and response metadata.
     """
-    # Format context from retrieved documents
+    # Format context from retrieved top document chunks
     context_blocks = []
     for idx, doc in enumerate(docs, 1):
-        source = doc.metadata.get("source", "Document")
-        section = doc.metadata.get("section", "Section")
+        source = doc.metadata.get("source", "Document.md")
+        title = doc.metadata.get("title", "Reference")
         score = doc.metadata.get("score", 0.0)
         context_blocks.append(
-            f"[Citation {idx}] {section} (Source: {source}, Score: {score})\n{doc.page_content}"
+            f"[Chunk {idx}] Document: '{source}' | Title: '{title}' | Score: {score}\n{doc.page_content}"
         )
-    context = "\n---\n".join(context_blocks) if context_blocks else "No additional vector context retrieved."
+    context = "\n---\n".join(context_blocks) if context_blocks else "No relevant vector context retrieved."
 
     tool_info = ""
     if tool_name and tool_result:
         tool_info = f"\n\nMCP Tool Executed: '{tool_name}'\nMCP Tool Output:\n{tool_result}\n"
 
-    # Try LLM generation
+    # Try LLM generation via Gemini
     gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     answer_text = None
 
@@ -58,23 +58,37 @@ def generate_response(
             )
             prompt = ChatPromptTemplate.from_messages([
                 ("system", SYSTEM_PROMPT),
-                ("human", "Retrieved Context:\n{context}{tool_info}\n\nUser Question: {query}\n\nPlease answer the user question based on the tool output and context above."),
+                ("human", "Retrieved Context Chunks:\n{context}{tool_info}\n\nUser Question: {query}\n\nPlease answer the user question based on the retrieved context chunks above, and cite the source document names."),
             ])
             chain = prompt | llm
             response = chain.invoke({"context": context, "tool_info": tool_info, "query": query})
             answer_text = response.content
         except Exception as e:
-            print(f"[Generator] Gemini LLM generation failed ({e}), falling back to domain synthesis.")
+            print(f"[Generator] Gemini LLM generation notice ({e}), using domain synthesis engine.")
 
-    # Fallback: domain-aware synthesis
+    # Fallback: domain-aware synthesis with explicit document sources
     if not answer_text:
         answer_text = _synthesize_local_answer(query, docs, tool_name, tool_result)
 
-    # Package result with citations
+    # Ensure source document section is appended if not already present
+    if docs and "📄 **Source Documents:**" not in answer_text and "Retrieved Regulatory" not in answer_text:
+        unique_sources = {}
+        for d in docs:
+            src = d.metadata.get("source", "Unknown")
+            title = d.metadata.get("title", "Reference Document")
+            if src not in unique_sources:
+                unique_sources[src] = title
+        
+        sources_summary = "\n\n---\n**📄 Source Documents:**\n"
+        for src, title in unique_sources.items():
+            sources_summary += f"- 📄 **{title}** (`{src}`)\n"
+        answer_text += sources_summary
+
+    # Package result with structured citations list
     citations = []
     for doc in docs:
         citations.append({
-            "id": doc.metadata.get("source", "doc") + "-" + str(doc.metadata.get("chunk_index", 0)),
+            "id": str(doc.metadata.get("source", "doc")) + "-" + str(doc.metadata.get("chunk_index", 0)),
             "source": doc.metadata.get("source", "Unknown"),
             "title": doc.metadata.get("title", "Reference"),
             "score": doc.metadata.get("score", 0.0),
@@ -90,7 +104,7 @@ def _synthesize_local_answer(
     tool_name: Optional[str] = None,
     tool_result: Optional[Dict[str, Any]] = None,
 ) -> str:
-    """Local synthesis engine for tool execution + RAG context."""
+    """Local synthesis engine featuring explicit source document attribution."""
     lines = [f"### Drone Intelligence Response: {query.strip('?').title()}\n"]
 
     if tool_name == "flight_time_calculator" and tool_result:
@@ -123,11 +137,11 @@ def _synthesize_local_answer(
             lines.append(f"- Match Score: {top.get('match_score')}%")
 
     if docs:
-        lines.append("\n---\n#### Retrieved Regulatory & Ecosystem Context:\n")
+        lines.append("\n---\n#### 📄 Retrieved Context Chunks & Document Sources:\n")
         for i, doc in enumerate(docs, 1):
             title = doc.metadata.get("title", f"Document {i}")
             source = doc.metadata.get("source", "Knowledge Base")
-            lines.append(f"**{i}. {title}** ({source})")
+            lines.append(f"**{i}. {title}** *(Source Document: `{source}`)*")
             lines.append(f"{doc.page_content.strip()}\n")
 
     return "\n".join(lines)
