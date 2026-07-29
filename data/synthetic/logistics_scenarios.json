@@ -1,6 +1,6 @@
 [
   {
-    "route_id": "RT-785",
+    "route_id": "RT-558",
     "origin": "Shillong Hub",
     "destination": "Cherrapunji PHC",
     "distance_km": 48.5,
@@ -13,7 +13,7 @@
     "digital_sky_permission": "GREEN_ZONE_PERMITTED"
   },
   {
-    "route_id": "RT-852",
+    "route_id": "RT-404",
     "origin": "Dehradun Hub",
     "destination": "Uttarkashi Hospital",
     "distance_km": 72.0,
@@ -26,7 +26,7 @@
     "digital_sky_permission": "GREEN_ZONE_PERMITTED"
   },
   {
-    "route_id": "RT-253",
+    "route_id": "RT-131",
     "origin": "Shimla Hub",
     "destination": "Kinnaur Medical Center",
     "distance_km": 95.0,
@@ -39,7 +39,7 @@
     "digital_sky_permission": "GREEN_ZONE_PERMITTED"
   },
   {
-    "route_id": "RT-423",
+    "route_id": "RT-257",
     "origin": "Imphal Hub",
     "destination": "Karang Island PHC",
     "distance_km": 32.0,
@@ -52,7 +52,7 @@
     "digital_sky_permission": "GREEN_ZONE_PERMITTED"
   },
   {
-    "route_id": "RT-842",
+    "route_id": "RT-826",
     "origin": "Guwahati Hub",
     "destination": "Barpeta Rural Clinic",
     "distance_km": 60.0,
