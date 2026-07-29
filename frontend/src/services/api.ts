@@ -398,13 +398,18 @@ async function mockRecommend(i: RecommendInput): Promise<DroneModel[]> {
 
 async function post<T>(path: string, body: unknown, mock: () => Promise<T>): Promise<T> {
   if (USE_MOCK_API) return mock();
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`API ${path} failed: ${res.status}`);
-  return (await res.json()) as T;
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`API ${path} failed: ${res.status}`);
+    return (await res.json()) as T;
+  } catch (err) {
+    console.warn(`[API ${path}] Network request failed, using instant local calculator fallback:`, err);
+    return mock();
+  }
 }
 
 export const api = {

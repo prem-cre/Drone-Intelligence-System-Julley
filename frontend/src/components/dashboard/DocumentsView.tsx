@@ -122,50 +122,45 @@ export function DocumentsView() {
               </tr>
             </thead>
             <tbody>
-              <AnimatePresence>
-                {docs.map((d) => (
-                  <motion.tr
-                    key={d.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="border-b border-slate-800/60 hover:bg-slate-800/30"
-                  >
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-2 text-slate-200">
-                        <FileText className="w-4 h-4 text-cyan-400 shrink-0" />
-                        <span className="font-mono text-xs truncate max-w-[280px]">{d.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3">
-                      <span className="text-[10px] rounded-full bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5">
-                        {d.category}
+              {docs.map((d) => (
+                <tr
+                  key={d.id}
+                  className="border-b border-slate-800/60 hover:bg-slate-800/30 transition animate-fade-in"
+                >
+                  <td className="px-5 py-3">
+                    <div className="flex items-center gap-2 text-slate-200">
+                      <FileText className="w-4 h-4 text-cyan-400 shrink-0" />
+                      <span className="font-mono text-xs truncate max-w-[280px]">{d.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className="text-[10px] rounded-full bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5">
+                      {d.category}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3 text-slate-300 font-mono">{d.chunks || "—"}</td>
+                  <td className="px-5 py-3 text-slate-400 text-xs">{d.ts}</td>
+                  <td className="px-5 py-3">
+                    {d.status === "ready" ? (
+                      <span className="inline-flex items-center gap-1 text-emerald-300 text-xs">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Ready
                       </span>
-                    </td>
-                    <td className="px-5 py-3 text-slate-300 font-mono">{d.chunks || "—"}</td>
-                    <td className="px-5 py-3 text-slate-400 text-xs">{d.ts}</td>
-                    <td className="px-5 py-3">
-                      {d.status === "ready" ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-300 text-xs">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Ready
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-cyan-300 text-xs">
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" /> {STAGE_LABELS[d.status]}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3 text-right">
-                      <button
-                        onClick={() => setDocs((all) => all.filter((x) => x.id !== d.id))}
-                        className="text-slate-500 hover:text-rose-400 transition"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </AnimatePresence>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 text-cyan-300 text-xs">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" /> {STAGE_LABELS[d.status]}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-5 py-3 text-right">
+                    <button
+                      onClick={() => setDocs((all) => all.filter((x) => x.id !== d.id))}
+                      className="text-slate-500 hover:text-rose-400 transition"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -591,8 +591,8 @@ function DroneSelect() {
         </Card>
       ) : (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {drones.map((d, i) => (
-            <motion.div key={d.model_name} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+          {drones.map((d) => (
+            <div key={d.model_name} className="animate-fade-in">
               <Card className="p-5 h-full flex flex-col">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -623,7 +623,7 @@ function DroneSelect() {
                 </div>
                 <div className="mt-4 text-[10px] uppercase tracking-wider text-cyan-400">{d.sector}</div>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       )}
