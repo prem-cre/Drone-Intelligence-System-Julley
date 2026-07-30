@@ -33,6 +33,11 @@ class ChatHistoryResponse(BaseModel):
     session_id: str
     messages: List[ChatMessageItem]
 
+class DocumentUploadRequest(BaseModel):
+    file_name: str
+    content: str
+
+
 
 # ── Flight Time ──
 class FlightTimeRequest(BaseModel):

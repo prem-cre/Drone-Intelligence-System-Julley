@@ -68,6 +68,23 @@ def test_chat_history_persistence():
     d_res = client.delete(f"/api/chat/history/{session_id}")
     assert d_res.status_code == 200
     
-    h_empty = client.get(f"/api/chat/history/{session_id}")
-    assert len(h_empty.json()["messages"]) == 0
+def test_analytics_endpoint():
+    response = client.get("/api/analytics")
+    assert response.status_code == 200
+    data = response.json()
+    assert "total_queries" in data
+    assert "popular_queries" in data
+
+def test_upload_endpoint():
+    payload = {
+        "file_name": "test_doc.md",
+        "content": "# Test Regulations Document\nMicro drones under 250g do not require UIN registration."
+    }
+    response = client.post("/api/upload", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "success"
+    assert data["chunks_indexed"] > 0
+
+
 

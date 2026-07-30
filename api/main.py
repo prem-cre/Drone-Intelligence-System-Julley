@@ -2,28 +2,17 @@ import os
 import sys
 
 # Ensure project root is on sys.path
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from typing import List
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.models.schemas import (
-    ChatRequest, ChatResponse,
-    FlightTimeRequest, FlightTimeResponse,
-    RoiRequest, RoiResponse,
-    ComplianceRequest, ComplianceResponse,
-    RecommendRequest, DroneModel,
-)
-from api.services.mcp_service import (
-    calculate_flight_time,
-    calculate_roi,
-    check_compliance,
-    recommend_drones,
-)
-from api.services.rag_service import handle_chat
+from api.routes.chat import router as chat_router
+from api.routes.upload import router as upload_router
+from api.routes.calculators import router as calculators_router
+from api.routes.analytics import router as analytics_router
 
 app = FastAPI(
     title="Drone Intelligence System API",
@@ -31,128 +20,25 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# ── CORS ── Allow the React frontend (Vite dev server on 5173/3000/8080)
+# CORS middleware for frontend dashboard
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://localhost:8080",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:8080",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Register modular routes
+app.include_router(chat_router)
+app.include_router(upload_router)
+app.include_router(calculators_router)
+app.include_router(analytics_router)
 
-# ──────────────────────────────────────
-# Health check
-# ──────────────────────────────────────
 @app.get("/")
 def root():
     return {"status": "operational", "service": "Drone Intelligence System API", "version": "1.0.0"}
 
-
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-
-# ──────────────────────────────────────
-# GET /api/analytics & GET /analytics
-# Track usage statistics, popular queries, system performance
-# ──────────────────────────────────────
-@app.get("/api/analytics")
-@app.get("/analytics")
-def get_analytics():
-    return {
-        "status": "operational",
-        "total_queries": 1495,
-        "avg_latency_ms": 271,
-        "top_category": "Agriculture",
-        "vector_chunks": 49,
-        "popular_queries": [
-            {"query": "DGCA rules for micro drones in green zones", "count": 342},
-            {"query": "Flight time for 10000mAh battery & 2kg payload", "count": 289},
-            {"query": "ROI calculation for 500-acre agricultural spraying", "count": 215},
-            {"query": "Recommend agricultural spraying drone under ₹8 Lakhs", "count": 178},
-        ],
-        "performance": {
-            "p50_latency_ms": 271,
-            "p95_latency_ms": 420,
-            "p99_latency_ms": 680,
-            "uptime_percent": 99.98,
-        }
-    }
-
-
-from api.models.schemas import (
-    ChatRequest, ChatResponse, ChatHistoryResponse, ChatMessageItem,
-    FlightTimeRequest, FlightTimeResponse,
-    RoiRequest, RoiResponse,
-    ComplianceRequest, ComplianceResponse,
-    RecommendRequest, DroneModel,
-)
-from api.services.history_service import get_chat_history, clear_chat_history
-
-
-# ──────────────────────────────────────
-# POST /api/chat  —  RAG + MCP hybrid with persistent history
-# ──────────────────────────────────────
-@app.post("/api/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
-    try:
-        session_id = req.session_id or "default"
-        result = handle_chat(req.message, session_id=session_id)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/api/chat/history/{session_id}", response_model=ChatHistoryResponse)
-def api_get_chat_history(session_id: str):
-    history = get_chat_history(session_id)
-    items = [ChatMessageItem(**h) for h in history]
-    return ChatHistoryResponse(session_id=session_id, messages=items)
-
-
-@app.delete("/api/chat/history/{session_id}")
-def api_clear_chat_history(session_id: str):
-    clear_chat_history(session_id)
-    return {"status": "success", "message": f"Cleared history for session '{session_id}'"}
-
-
-
-# ──────────────────────────────────────
-# POST /api/calculate/flight-time
-# ──────────────────────────────────────
-@app.post("/api/calculate/flight-time", response_model=FlightTimeResponse)
-def api_flight_time(req: FlightTimeRequest):
-    return calculate_flight_time(req)
-
-
-# ──────────────────────────────────────
-# POST /api/calculate/roi
-# ──────────────────────────────────────
-@app.post("/api/calculate/roi", response_model=RoiResponse)
-def api_roi(req: RoiRequest):
-    return calculate_roi(req)
-
-
-# ──────────────────────────────────────
-# POST /api/check/compliance
-# ──────────────────────────────────────
-@app.post("/api/check/compliance", response_model=ComplianceResponse)
-def api_compliance(req: ComplianceRequest):
-    return check_compliance(req)
-
-
-# ──────────────────────────────────────
-# POST /api/recommend/drone
-# ──────────────────────────────────────
-@app.post("/api/recommend/drone", response_model=List[DroneModel])
-def api_recommend(req: RecommendRequest):
-    return recommend_drones(req)
