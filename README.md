@@ -268,10 +268,3 @@ GitHub Actions workflow (`.github/workflows/ci.yml`) automatically runs:
 2. Pytest suite execution across API, RAG, and MCP modules.
 3. Node.js 20 frontend production bundle build (`npm run build`).
 
----
-
-## 📩 Submission Guidelines & Contact
-
-This project is submitted in fulfillment of the **JulleyOnline AI/ML Internship Project**.
-
--
