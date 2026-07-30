@@ -274,10 +274,4 @@ GitHub Actions workflow (`.github/workflows/ci.yml`) automatically runs:
 
 This project is submitted in fulfillment of the **JulleyOnline AI/ML Internship Project**.
 
-- **Project Lead / Evaluator**: Rajesh K
-- **Email**: `rajesh.k@julleyonline.in`
-- **Phone**: `+91-8903609371`
-- **Repository**: Public GitHub Repository with clean commit history.
-
----
-*Built with ❤️ for India's Drone Revolution.*
+-
