@@ -6,15 +6,23 @@ RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 PROCESSED_DIR = os.path.join(BASE_DIR, "data", "processed")
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
-def chunk_text(text, chunk_size=500, overlap=50):
+def chunk_text(text, chunk_size=1000, overlap=150):
     chunks = []
     start = 0
-    while start < len(text):
-        end = min(start + chunk_size, len(text))
+    text_len = len(text)
+    while start < text_len:
+        end = min(start + chunk_size, text_len)
+        if end < text_len:
+            # Snap to last space or newline to avoid cutting words
+            space_pos = text.rfind(' ', start + 100, end)
+            if space_pos != -1:
+                end = space_pos
         chunk = text[start:end].strip()
         if chunk:
             chunks.append(chunk)
-        start += chunk_size - overlap
+        if end >= text_len:
+            break
+        start = max(start + 1, end - overlap)
     return chunks
 
 def process_all_raw_data():
@@ -34,7 +42,7 @@ def process_all_raw_data():
             title = lines[0].replace("#", "").strip() if lines else md_file
             body = "\n".join(lines[1:]) if len(lines) > 1 else section
             
-            sub_chunks = chunk_text(body, chunk_size=500, overlap=50)
+            sub_chunks = chunk_text(body, chunk_size=1200, overlap=150)
             for chunk in sub_chunks:
                 all_chunks.append({
                     "id": f"chunk-{chunk_id_counter}",

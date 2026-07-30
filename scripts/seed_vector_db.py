@@ -13,11 +13,18 @@ if BASE_DIR not in sys.path:
 from rag.pipeline import RAGPipeline
 
 PROCESSED_FILE = os.path.join(BASE_DIR, "data", "processed", "chunked_rag_docs.json")
+CHROMA_DIR = os.path.join(BASE_DIR, "data", "processed", "chroma_db")
 
 def seed_database():
     if not os.path.exists(PROCESSED_FILE):
         print(f"[Seed] Processed file missing: {PROCESSED_FILE}. Run preprocess_data.py first.")
         return
+
+    # Delete existing chroma_db directory for a fresh clean state
+    if os.path.exists(CHROMA_DIR):
+        import shutil
+        print(f"[Seed] Clearing existing vector DB directory at: {CHROMA_DIR}")
+        shutil.rmtree(CHROMA_DIR)
 
     with open(PROCESSED_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)

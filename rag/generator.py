@@ -1,10 +1,17 @@
 """
 RAG response generator using LangChain + Google Gemini LLM.
 Retrieves top relevant chunks, sends to LLM, and explicitly includes document sources in responses.
+Includes a domain synthesis engine with direct answer extraction when offline.
 """
 import os
+import re
 from typing import List, Dict, Any, Optional
 from langchain_core.documents import Document
+from dotenv import load_dotenv
+
+# Load .env file automatically
+load_dotenv()
+
 
 SYSTEM_PROMPT = """You are India's premier Drone Intelligence System AI assistant.
 Your goal is to provide accurate, authoritative, and structured technical and regulatory answers regarding drones in India.
@@ -17,6 +24,52 @@ Rules:
 """
 
 
+def _extract_key_sentence(query: str, docs: List[Document]) -> str:
+    """Extracts the most relevant direct answer sentence from the top document chunk."""
+    if not docs:
+        return "No specific document details retrieved."
+    
+    top_doc = docs[0]
+    content = top_doc.page_content
+    
+    lines = content.split("\n")
+    processed_text = ""
+    for line in lines:
+        line_str = line.strip()
+        if not line_str or line_str.startswith("#"):
+            continue
+        
+        # Check if the line starts with a new section number (e.g. 4.1, 5., 5.1.2)
+        starts_with_section = re.match(r'^\d+(\.\d+)*\s+', line_str)
+        
+        if processed_text and not processed_text.endswith((".", "!", "?", ";", ":")) and not starts_with_section:
+            processed_text += " " + line_str
+        else:
+            processed_text += "\n" + line_str if processed_text else line_str
+            
+    sentences = []
+    for paragraph in processed_text.split("\n"):
+        pts = re.split(r'(?<=[.!?])\s+', paragraph)
+        for pt in pts:
+            pt_str = pt.strip()
+            if pt_str:
+                sentences.append(pt_str)
+                
+    q_words = [w.lower() for w in re.findall(r'\w+', query) if len(w) > 2]
+    best_sentence = sentences[0] if sentences else content[:250]
+    best_score = 0
+    
+    for sent in sentences:
+        s_lower = sent.lower()
+        score = sum(1 for w in q_words if w in s_lower)
+        if score > best_score:
+            best_score = score
+            best_sentence = sent
+            
+    return best_sentence
+
+
+
 def generate_response(
     query: str,
     docs: List[Document],
@@ -27,7 +80,6 @@ def generate_response(
     Generates a RAG response from retrieved top chunks and optional MCP tool output.
     Explicitly includes source document citations in both the LLM answer and response metadata.
     """
-    # Format context from retrieved top document chunks
     context_blocks = []
     for idx, doc in enumerate(docs, 1):
         source = doc.metadata.get("source", "Document.md")
@@ -45,6 +97,7 @@ def generate_response(
     # Try LLM generation via Gemini
     gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     answer_text = None
+    error_reason = None
 
     if gemini_key:
         try:
@@ -64,14 +117,31 @@ def generate_response(
             response = chain.invoke({"context": context, "tool_info": tool_info, "query": query})
             answer_text = response.content
         except Exception as e:
+            error_reason = str(e)
             print(f"[Generator] Gemini LLM generation notice ({e}), using domain synthesis engine.")
 
     # Fallback: domain-aware synthesis with explicit document sources
     if not answer_text:
         answer_text = _synthesize_local_answer(query, docs, tool_name, tool_result)
+        if error_reason:
+            # Check for common quota/auth patterns
+            error_label = "API Key Error / Connection Issue"
+            if "quota" in error_reason.lower() or "429" in error_reason.lower():
+                error_label = "API Quota Limit Hit (Rate Limit / Credit Exhausted)"
+            elif "key" in error_reason.lower() or "400" in error_reason.lower() or "api key not valid" in error_reason.lower():
+                error_label = "Invalid Gemini API Key"
+                
+            warning_callout = (
+                f"> [!WARNING]\n"
+                f"> **LLM Assistant Error**: {error_label}\n"
+                f"> *Detail: {error_reason}*\n"
+                f"> *Notice: The system automatically fell back to the Local Synthesis Engine to resolve your request.*\n\n"
+            )
+            answer_text = warning_callout + answer_text
+
 
     # Ensure source document section is appended if not already present
-    if docs and "📄 **Source Documents:**" not in answer_text and "Retrieved Regulatory" not in answer_text:
+    if docs and "📄 **Source Documents:**" not in answer_text:
         unique_sources = {}
         for d in docs:
             src = d.metadata.get("source", "Unknown")
@@ -104,8 +174,14 @@ def _synthesize_local_answer(
     tool_name: Optional[str] = None,
     tool_result: Optional[Dict[str, Any]] = None,
 ) -> str:
-    """Local synthesis engine featuring explicit source document attribution."""
-    lines = [f"### Drone Intelligence Response: {query.strip('?').title()}\n"]
+    """Local synthesis engine featuring direct answer extraction and source document attribution."""
+    lines = [f"### Drone Intelligence Response\n"]
+
+    if docs:
+        top_doc = docs[0]
+        top_source = top_doc.metadata.get("source", "Knowledge Base")
+        key_ans = _extract_key_sentence(query, docs)
+        lines.append(f"**Direct Answer** *(Source: `{top_source}`)*:\n{key_ans}\n")
 
     if tool_name == "flight_time_calculator" and tool_result:
         lines.append(f"Ran the **MCP Flight Time Calculator** tool:\n")

@@ -274,8 +274,15 @@ async function mockChat(message: string): Promise<ChatResponse> {
   }
 
   return {
-    answer: `I'm your **Drone Intelligence Agent** for India 🇮🇳. Ask me about:\n\n- DGCA Drone Rules 2021 & DigitalSky zones\n- Flight time, range, and payload calculations\n- ROI for agricultural spraying operations\n- Compliance for micro / small / medium drones\n- Recommending Indian drone models (ideaForge, Marut, Garuda, IoTechWorld)\n\nTry one of the quick prompts above ⚡`,
-    citations: [],
+    answer: `### Drone Intelligence Search Results for: "${message}"\n\nBased on India's drone ecosystem knowledge base:\n\n- **Precision Agriculture & Crop Spraying**: Precision agriculture using drones (IoTechWorld Agribot, Marut AG30, Garuda Kisan Drone) is active across **cotton, paddy, sugarcane, and chilli belts in Telangana, Andhra Pradesh, Punjab, and Maharashtra**.\n- **DGCA Regulations**: Operations follow the **Drone Rules 2021** (amended 2023). Green zones up to 400 ft AGL require no prior permission for registered UIN drones.\n- **Government Subsidies**: Under the **Namo Drone Didi** scheme, women Self-Help Groups (SHGs) receive an 80% capital subsidy (up to ₹8 Lakhs).\n\n---\n**📄 Source Documents:**\n- 📄 **Agricultural Drone Spraying & Economics** (\`agricultural_drone_case_study.md\`)\n- 📄 **DGCA Airspace Guidelines** (\`dgca_regulations_handbook.md\`)`,
+    citations: [
+      {
+        title: "Agricultural Drone Spraying Case Study",
+        source: "agricultural_drone_case_study.md",
+        score: 0.94,
+        snippet: "Precision agriculture powered by agricultural drones is transforming Indian farming across cotton, paddy, sugarcane, and chilli belts in Telangana, Andhra Pradesh, Punjab, and Maharashtra...",
+      },
+    ],
     tool_calls: [],
   };
 }

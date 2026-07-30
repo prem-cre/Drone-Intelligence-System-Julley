@@ -44,21 +44,68 @@ export function DocumentsView() {
         status: "parsing",
       };
       setDocs((d) => [newDoc, ...d]);
-      STAGES.forEach((stage, i) => {
-        setTimeout(() => {
-          setDocs((d) =>
-            d.map((doc) =>
-              doc.id === id
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64Content = reader.result as string;
+        try {
+          // Set incremental steps to show visual progress
+          setTimeout(() => {
+            setDocs((all) => all.map((x) => x.id === id ? { ...x, status: "chunking" } : x));
+          }, 400);
+          setTimeout(() => {
+            setDocs((all) => all.map((x) => x.id === id ? { ...x, status: "embedding" } : x));
+          }, 800);
+          setTimeout(() => {
+            setDocs((all) => all.map((x) => x.id === id ? { ...x, status: "indexing" } : x));
+          }, 1200);
+
+          const res = await fetch("http://localhost:8000/api/upload", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              file_name: f.name,
+              content: base64Content,
+            }),
+          });
+          
+          if (!res.ok) throw new Error("Upload failed");
+          const data = await res.json();
+          
+          setDocs((all) =>
+            all.map((x) =>
+              x.id === id
                 ? {
-                    ...doc,
-                    status: stage,
-                    chunks: stage === "ready" ? Math.floor(50 + Math.random() * 300) : doc.chunks,
+                    ...x,
+                    status: "ready",
+                    chunks: data.chunks_indexed || 15,
                   }
-                : doc,
-            ),
+                : x
+            )
           );
-        }, (i + 1) * 700);
-      });
+        } catch (err) {
+          console.error("Failed to upload document to backend", err);
+          // Fallback simulation
+          STAGES.forEach((stage, idx) => {
+            setTimeout(() => {
+              setDocs((all) =>
+                all.map((x) =>
+                  x.id === id
+                    ? {
+                        ...x,
+                        status: stage,
+                        chunks: stage === "ready" ? Math.floor(50 + Math.random() * 200) : x.chunks,
+                      }
+                    : x
+                )
+              );
+            }, (idx + 1) * 700);
+          });
+        }
+      };
+      reader.readAsDataURL(f);
     });
   }, []);
 

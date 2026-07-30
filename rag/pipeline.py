@@ -39,29 +39,13 @@ class RAGState(TypedDict):
 # ── Node Functions ──
 
 def retrieve_node(state: RAGState) -> dict:
-    """Retrieves documents using multi-query expansion + vector similarity search."""
+    """Retrieves documents using Hybrid Vector + Lexical Keyword Search."""
     query = state["query"]
-    vs = get_vectorstore()
-
-    # Try LangChain MultiQueryRetriever first
-    try:
-        retriever = get_multi_query_retriever(vs)
-        docs = retriever.invoke(query)
-        print(f"[RAG:Retrieve] MultiQueryRetriever returned {len(docs)} documents.")
-        # Wrap in a single list for RRF compatibility
-        return {"retrieved_docs": [docs]}
-    except Exception as e:
-        print(f"[RAG:Retrieve] MultiQueryRetriever failed ({e}), using manual expansion.")
-
-    # Fallback: manual query expansion + individual searches
-    queries = manual_query_expansion(query)
-    doc_lists = []
-    for q in queries:
-        results = similarity_search(q, top_k=5)
-        if results:
-            doc_lists.append(results)
-    print(f"[RAG:Retrieve] Manual expansion returned {sum(len(dl) for dl in doc_lists)} total candidates across {len(doc_lists)} queries.")
-    return {"retrieved_docs": doc_lists, "expanded_queries": queries}
+    from rag.retriever import get_relevant_documents
+    
+    docs = get_relevant_documents(query, top_k=5)
+    print(f"[RAG:Retrieve] HybridRetriever returned {len(docs)} documents.")
+    return {"retrieved_docs": [docs]}
 
 
 def rerank_node(state: RAGState) -> dict:
