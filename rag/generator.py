@@ -5,12 +5,47 @@ Includes a domain synthesis engine with direct answer extraction when offline.
 """
 import os
 import re
+import json
+import urllib.request
+import urllib.error
 from typing import List, Dict, Any, Optional
 from langchain_core.documents import Document
 from dotenv import load_dotenv
 
 # Load .env file automatically
 load_dotenv()
+
+
+def _call_groq_llm(query: str, context: str, tool_info: str, groq_key: str) -> str:
+    """Invokes Groq Llama 3.3 70B directly via HTTP REST API with zero external dependencies."""
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {groq_key.strip()}",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    user_prompt = (
+        f"Retrieved Context Chunks:\n{context}{tool_info}\n\n"
+        f"User Question: {query}\n\n"
+        f"Please answer the user question based on the retrieved context chunks above, and cite the source document names."
+    )
+    
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt}
+        ],
+        "temperature": 0.3
+    }
+    
+    data_bytes = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data_bytes, headers=headers)
+    
+    with urllib.request.urlopen(req, timeout=15) as response:
+        res_json = json.loads(response.read().decode("utf-8"))
+        return res_json["choices"][0]["message"]["content"]
+
 
 
 SYSTEM_PROMPT = """You are India's premier Drone Intelligence System AI assistant.
@@ -94,19 +129,29 @@ def generate_response(
     if tool_name and tool_result:
         tool_info = f"\n\nMCP Tool Executed: '{tool_name}'\nMCP Tool Output:\n{tool_result}\n"
 
-    # Try LLM generation via Gemini
+    # Try LLM generation via Groq or Gemini
+    groq_key = os.getenv("GROQ_API_KEY")
     gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     answer_text = None
     error_reason = None
+    llm_provider = None
 
-    if gemini_key:
+    if groq_key and groq_key.strip():
+        try:
+            answer_text = _call_groq_llm(query, context, tool_info, groq_key)
+            llm_provider = "Groq (Llama 3.3 70B)"
+        except Exception as e:
+            error_reason = f"[Groq LLM Error]: {str(e)}"
+            print(f"[Generator] Groq direct LLM notice ({e}), checking fallback...")
+
+    if not answer_text and gemini_key and gemini_key.strip():
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
             from langchain_core.prompts import ChatPromptTemplate
 
             llm = ChatGoogleGenerativeAI(
-                model="gemini-1.5-flash",
-                google_api_key=gemini_key,
+                model="gemini-2.5-flash",
+                google_api_key=gemini_key.strip(),
                 temperature=0.3,
             )
             prompt = ChatPromptTemplate.from_messages([
@@ -116,9 +161,11 @@ def generate_response(
             chain = prompt | llm
             response = chain.invoke({"context": context, "tool_info": tool_info, "query": query})
             answer_text = response.content
+            llm_provider = "Google Gemini 2.5 Flash"
         except Exception as e:
-            error_reason = str(e)
-            print(f"[Generator] Gemini LLM generation notice ({e}), using domain synthesis engine.")
+            if not error_reason:
+                error_reason = f"[Gemini LLM Error]: {str(e)}"
+            print(f"[Generator] Gemini LLM notice ({e}), falling back to local synthesis engine...")
 
     # Fallback: domain-aware synthesis with explicit document sources
     if not answer_text:
