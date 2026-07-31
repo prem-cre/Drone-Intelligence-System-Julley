@@ -105,7 +105,7 @@ def generate_response(
             from langchain_core.prompts import ChatPromptTemplate
 
             llm = ChatGoogleGenerativeAI(
-                model="gemini-2.0-flash",
+                model="gemini-1.5-flash",
                 google_api_key=gemini_key,
                 temperature=0.3,
             )
