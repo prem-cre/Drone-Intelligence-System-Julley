@@ -83,7 +83,7 @@ function Dashboard() {
           </div>
 
           <main className="flex-1 overflow-hidden">
-            <div key={view} className="h-full overflow-y-auto">
+            <div key={view} className={`h-full ${view === "chat" ? "overflow-hidden" : "overflow-y-auto"}`}>
               {view === "chat" && <ChatView messages={messages} setMessages={setMessages} />}
               {view === "calculators" && <CalculatorsView />}
               {view === "documents" && <DocumentsView />}

@@ -82,3 +82,45 @@ def clear_chat_history(session_id: str = "default"):
     cursor.execute("DELETE FROM chat_messages WHERE session_id = ?", (session_id,))
     conn.commit()
     conn.close()
+
+
+def get_all_chat_sessions() -> List[Dict[str, Any]]:
+    """Retrieves all distinct chat session threads with titles and timestamps."""
+    init_history_db()
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT session_id, role, content, timestamp 
+        FROM chat_messages 
+        ORDER BY rowid ASC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+
+    sessions_map: Dict[str, Dict[str, Any]] = {}
+    for session_id, role, content, ts in rows:
+        if session_id not in sessions_map:
+            title = content[:35] + "..." if len(content) > 35 else content
+            sessions_map[session_id] = {
+                "session_id": session_id,
+                "title": title if role == "user" else f"Chat Thread ({session_id[:6]})",
+                "created_at": ts,
+                "last_message": content[:50],
+            }
+        else:
+            sessions_map[session_id]["created_at"] = ts
+            sessions_map[session_id]["last_message"] = content[:50]
+
+    return list(sessions_map.values())
+
+
+def create_new_chat_session() -> Dict[str, Any]:
+    """Generates a new chat session thread ID."""
+    new_id = f"session-{str(uuid.uuid4())[:8]}"
+    return {
+        "session_id": new_id,
+        "title": "New Chat",
+        "created_at": None,
+        "last_message": "",
+    }
+

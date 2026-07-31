@@ -1,9 +1,24 @@
 from fastapi import APIRouter, HTTPException
 from api.models.schemas import ChatRequest, ChatResponse, ChatHistoryResponse, ChatMessageItem
 from api.services.rag_service import handle_chat
-from api.services.history_service import get_chat_history, clear_chat_history
+from api.services.history_service import (
+    get_chat_history,
+    clear_chat_history,
+    get_all_chat_sessions,
+    create_new_chat_session,
+)
 
 router = APIRouter(tags=["Chat & RAG"])
+
+@router.get("/api/chat/sessions")
+@router.get("/chat/sessions")
+def get_sessions_endpoint():
+    return get_all_chat_sessions()
+
+@router.post("/api/chat/sessions")
+@router.post("/chat/sessions")
+def create_session_endpoint():
+    return create_new_chat_session()
 
 @router.post("/chat", response_model=ChatResponse)
 @router.post("/api/chat", response_model=ChatResponse)

@@ -71,9 +71,12 @@ def generate_node(state: RAGState) -> dict:
     return {"answer": result["answer"], "citations": result["citations"]}
 
 
+from langgraph.checkpoint.memory import MemorySaver
+
+
 # ── Build LangGraph ──
 
-def build_rag_graph() -> StateGraph:
+def build_rag_graph(checkpointer=None) -> StateGraph:
     """Constructs the LangGraph RAG pipeline: retrieve → rerank → generate."""
     graph = StateGraph(RAGState)
 
@@ -86,6 +89,8 @@ def build_rag_graph() -> StateGraph:
     graph.add_edge("rerank", "generate")
     graph.add_edge("generate", END)
 
+    if checkpointer:
+        return graph.compile(checkpointer=checkpointer)
     return graph.compile()
 
 
@@ -99,16 +104,17 @@ class RAGPipeline:
     - LangChain Chroma for persistent vector storage
     - MultiQueryRetriever with Gemini LLM for query expansion
     - Reciprocal Rank Fusion (RRF) + BM25 for hybrid reranking
-    - Google Gemini (gemini-2.0-flash) for response generation
-    - LangGraph StateGraph for orchestration (retrieve → rerank → generate)
+    - Google Gemini / Groq Llama 3.3 for response generation
+    - LangGraph StateGraph with MemorySaver thread_id checkpointer for session state
     """
 
     def __init__(self):
-        self.graph = build_rag_graph()
-        print("[RAGPipeline] LangGraph RAG pipeline initialized (retrieve -> rerank -> generate).")
+        self.checkpointer = MemorySaver()
+        self.graph = build_rag_graph(checkpointer=self.checkpointer)
+        print("[RAGPipeline] LangGraph RAG pipeline initialized with thread MemorySaver state checkpointing.")
 
-    def query(self, question: str, top_k: int = 4, category: str = None) -> Dict[str, Any]:
-        """Execute the full RAG pipeline for a user question."""
+    def query(self, question: str, session_id: str = "default", top_k: int = 4, category: str = None) -> Dict[str, Any]:
+        """Execute the full RAG pipeline for a user question with session thread persistence."""
         initial_state: RAGState = {
             "query": question,
             "expanded_queries": [],
@@ -117,7 +123,8 @@ class RAGPipeline:
             "answer": "",
             "citations": [],
         }
-        result = self.graph.invoke(initial_state)
+        config = {"configurable": {"thread_id": session_id}}
+        result = self.graph.invoke(initial_state, config=config)
         return {
             "answer": result.get("answer", ""),
             "citations": result.get("citations", []),

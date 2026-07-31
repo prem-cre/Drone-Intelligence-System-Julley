@@ -118,8 +118,8 @@ def _evaluate_tool_relevance(message: str) -> Tuple[Optional[str], float, dict]:
 
     # 1. Flight Time Calculator
     is_flight_calc = any(kw in lower for kw in (
-        "calculate flight time", "flight time for", "battery mah",
-        "power curve calculation", "how long can i fly"
+        "calculate flight time", "flight time", "battery mah", "mah battery",
+        "power curve", "how long can i fly", "drone battery life", "endurance calculation"
     ))
     if is_flight_calc:
         params = _extract_flight_params(message)
@@ -128,8 +128,8 @@ def _evaluate_tool_relevance(message: str) -> Tuple[Optional[str], float, dict]:
 
     # 2. ROI Calculator
     is_roi_calc = any(kw in lower for kw in (
-        "calculate roi", "check roi", "roi for", "payback period calculation",
-        "roi of drone", "profit for acre"
+        "calculate roi", "check roi", "roi for", "payback period",
+        "roi of drone", "profit for acre", "return on investment", "drone business payback"
     ))
     if is_roi_calc:
         params = _extract_roi_params(message)
@@ -138,8 +138,8 @@ def _evaluate_tool_relevance(message: str) -> Tuple[Optional[str], float, dict]:
 
     # 3. Compliance Checker
     is_compliance_check = any(kw in lower for kw in (
-        "check compliance", "verify compliance", "compliance check for",
-        "can i fly in red zone", "can i fly in yellow zone", "is it legal to fly in red zone"
+        "check compliance", "verify compliance", "compliance check", "is it legal to fly", "can i fly in",
+        "permission required to fly", "red zone rules", "yellow zone rules"
     ))
     if is_compliance_check:
         params = _extract_compliance_params(message)
@@ -148,8 +148,8 @@ def _evaluate_tool_relevance(message: str) -> Tuple[Optional[str], float, dict]:
 
     # 4. Drone Recommender
     is_recommend_check = any(kw in lower for kw in (
-        "recommend a drone", "suggest a drone", "drone under",
-        "best drone under", "recommend drone under"
+        "recommend a drone", "suggest a drone", "drone under", "best drone", "recommend drone",
+        "which drone should i buy", "agricultural drone under"
     ))
     if is_recommend_check:
         params = _extract_recommend_params(message)

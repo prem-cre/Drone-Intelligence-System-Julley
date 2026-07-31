@@ -419,8 +419,50 @@ async function post<T>(path: string, body: unknown, mock: () => Promise<T>): Pro
   }
 }
 
+export interface ChatSessionItem {
+  session_id: string;
+  title: string;
+  created_at: string | null;
+  last_message?: string;
+}
+
 export const api = {
-  chat: (message: string) => post("/api/chat", { message }, () => mockChat(message)),
+  chat: (message: string, session_id: string = "default") =>
+    post("/api/chat", { message, session_id }, () => mockChat(message)),
+  getSessions: async (): Promise<ChatSessionItem[]> => {
+    try {
+      const res = await fetch(`${API_BASE}/api/chat/sessions`);
+      if (!res.ok) return [];
+      return await res.json();
+    } catch {
+      return [];
+    }
+  },
+  createSession: async (): Promise<ChatSessionItem> => {
+    try {
+      const res = await fetch(`${API_BASE}/api/chat/sessions`, { method: "POST" });
+      if (!res.ok) throw new Error("Failed to create session");
+      return await res.json();
+    } catch {
+      return { session_id: `session-${Date.now().toString(36)}`, title: "New Chat", created_at: null };
+    }
+  },
+  getHistory: async (session_id: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/chat/history/${session_id}`);
+      if (!res.ok) return { session_id, messages: [] };
+      return await res.json();
+    } catch {
+      return { session_id, messages: [] };
+    }
+  },
+  deleteSession: async (session_id: string) => {
+    try {
+      await fetch(`${API_BASE}/api/chat/history/${session_id}`, { method: "DELETE" });
+    } catch (e) {
+      console.warn("Delete session error", e);
+    }
+  },
   flightTime: (i: FlightTimeInput) => post("/api/calculate/flight-time", i, () => mockFlightTime(i)),
   roi: (i: RoiInput) => post("/api/calculate/roi", i, () => mockRoi(i)),
   compliance: (i: ComplianceInput) => post("/api/check/compliance", i, () => mockCompliance(i)),
