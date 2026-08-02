@@ -143,11 +143,10 @@ export function ChatView({ messages, setMessages }: {
           <div className="flex-1 overflow-y-auto p-2 space-y-1">
             <button
               onClick={() => switchSession("default")}
-              className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-center justify-between transition ${
-                activeSessionId === "default"
+              className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-center justify-between transition ${activeSessionId === "default"
                   ? "bg-cyan-950/30 border-cyan-500/40 text-cyan-300 font-medium"
                   : "border-slate-800/40 text-slate-400 hover:bg-slate-900/60 hover:text-slate-200"
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2 truncate">
                 <MessageSquare className="w-3.5 h-3.5 shrink-0 text-cyan-400" />
@@ -159,11 +158,10 @@ export function ChatView({ messages, setMessages }: {
               <button
                 key={s.session_id}
                 onClick={() => switchSession(s.session_id)}
-                className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-center justify-between group transition ${
-                  activeSessionId === s.session_id
+                className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-center justify-between group transition ${activeSessionId === s.session_id
                     ? "bg-cyan-950/30 border-cyan-500/40 text-cyan-300 font-medium"
                     : "border-slate-800/40 text-slate-400 hover:bg-slate-900/60 hover:text-slate-200"
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-2 truncate pr-1">
                   <MessageSquare className="w-3.5 h-3.5 shrink-0 opacity-70" />
@@ -193,7 +191,7 @@ export function ChatView({ messages, setMessages }: {
             <History className="w-3.5 h-3.5 text-cyan-400" />
             <span>{showHistorySidebar ? "Hide History" : "Chat History"}</span>
           </button>
-          
+
           <div className="text-xs text-slate-500 font-mono">
             Thread: <span className="text-cyan-400">{activeSessionId}</span>
           </div>

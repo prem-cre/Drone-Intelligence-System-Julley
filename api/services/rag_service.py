@@ -9,6 +9,7 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 from api.models.schemas import ChatResponse, Citation, ToolCall
+from api.services.history_service import save_chat_message, get_chat_history
 from mcp_server.server import MCPServer
 from rag.retriever import get_relevant_documents
 from rag.generator import generate_response
@@ -165,17 +166,24 @@ from api.services.history_service import save_chat_message
 
 def handle_chat(message: str, session_id: str = "default") -> Dict[str, Any]:
     """
-    Evaluates query relevance:
-    - If MCP Tool relevance >= 95%, calls specific MCP tool + RAG context.
-    - If MCP Tool relevance < 95%, performs pure RAG document retrieval.
+    Evaluates query relevance, retrieves conversation history memory for the thread,
+    executes MCP tools or pure RAG retrieval, and passes conversation memory to the LLM.
     Persists user message and assistant answer to SQLite history.
     """
-    # 1. Save user message to persistent history
+    # 1. Fetch recent conversation history for session thread memory (last 6 messages / 3 turns)
+    past_history = get_chat_history(session_id)
+    recent_turns = past_history[-6:] if past_history else []
+    history_str = ""
+    for h in recent_turns:
+        role_label = "User" if h["role"] == "user" else "Assistant"
+        history_str += f"{role_label}: {h['content']}\n"
+
+    # Save current user message to persistent history
     user_msg_id = f"user-{os.urandom(4).hex()}"
     save_chat_message(session_id=session_id, role="user", content=message, msg_id=user_msg_id)
 
     tool_name, relevance_score, tool_params = _evaluate_tool_relevance(message)
-    print(f"[RAG Router] Session: '{session_id}' | Query: '{message}' | Tool: '{tool_name}' | Relevance: {relevance_score * 100:.1f}%")
+    print(f"[RAG Router] Session: '{session_id}' | Query: '{message}' | Memory turns: {len(recent_turns)} | Tool: '{tool_name}' | Relevance: {relevance_score * 100:.1f}%")
 
     tool_calls: List[ToolCall] = []
     mcp_result = None
@@ -197,7 +205,7 @@ def handle_chat(message: str, session_id: str = "default") -> Dict[str, Any]:
     retrieved_docs = []
     if _rag_pipeline and not tool_name:
         try:
-            rag_res = _rag_pipeline.query(message, top_k=4)
+            rag_res = _rag_pipeline.query(message, session_id=session_id, chat_history=history_str, top_k=4)
             citations = [
                 Citation(
                     title=c.get("title", "Reference"),
@@ -231,12 +239,13 @@ def handle_chat(message: str, session_id: str = "default") -> Dict[str, Any]:
     except Exception as e:
         print(f"[RAG Router] Hybrid retrieval error ({e})")
 
-    # Step 3: Synthesize final answer incorporating MCP tool output (if tool ran) or RAG context
+    # Step 3: Synthesize final answer incorporating MCP tool output (if tool ran) or RAG context & conversation memory
     gen_result = generate_response(
         query=message,
         docs=retrieved_docs,
         tool_name=tool_name,
         tool_result=mcp_result if isinstance(mcp_result, dict) else ({"recommendations": mcp_result} if mcp_result else None),
+        chat_history=history_str,
     )
 
     citations = [

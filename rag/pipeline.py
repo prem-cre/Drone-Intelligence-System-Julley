@@ -29,6 +29,7 @@ from rag.generator import generate_response
 # ── LangGraph State ──
 class RAGState(TypedDict):
     query: str
+    chat_history: str
     expanded_queries: List[str]
     retrieved_docs: List[List[Document]]
     reranked_docs: List[Document]
@@ -63,11 +64,12 @@ def rerank_node(state: RAGState) -> dict:
 
 
 def generate_node(state: RAGState) -> dict:
-    """Generates final answer using Gemini LLM with retrieved context."""
+    """Generates final answer using Gemini / Groq LLM with retrieved context and conversation history."""
     docs = state.get("reranked_docs", [])
     query = state["query"]
+    chat_history = state.get("chat_history", "")
 
-    result = generate_response(query, docs)
+    result = generate_response(query, docs, chat_history=chat_history)
     return {"answer": result["answer"], "citations": result["citations"]}
 
 
@@ -113,10 +115,18 @@ class RAGPipeline:
         self.graph = build_rag_graph(checkpointer=self.checkpointer)
         print("[RAGPipeline] LangGraph RAG pipeline initialized with thread MemorySaver state checkpointing.")
 
-    def query(self, question: str, session_id: str = "default", top_k: int = 4, category: str = None) -> Dict[str, Any]:
+    def query(
+        self,
+        question: str,
+        session_id: str = "default",
+        chat_history: str = "",
+        top_k: int = 4,
+        category: str = None
+    ) -> Dict[str, Any]:
         """Execute the full RAG pipeline for a user question with session thread persistence."""
         initial_state: RAGState = {
             "query": question,
+            "chat_history": chat_history,
             "expanded_queries": [],
             "retrieved_docs": [],
             "reranked_docs": [],

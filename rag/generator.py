@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def _call_groq_llm(query: str, context: str, tool_info: str, groq_key: str) -> str:
+def _call_groq_llm(query: str, context: str, tool_info: str, groq_key: str, chat_history: str = "") -> str:
     """Invokes Groq Llama 3.3 70B directly via HTTP REST API with zero external dependencies."""
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
@@ -24,10 +24,12 @@ def _call_groq_llm(query: str, context: str, tool_info: str, groq_key: str) -> s
         "Authorization": f"Bearer {groq_key.strip()}",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
+    history_block = f"Recent Conversation History:\n{chat_history}\n\n" if chat_history else ""
     user_prompt = (
+        f"{history_block}"
         f"Retrieved Context Chunks:\n{context}{tool_info}\n\n"
         f"User Question: {query}\n\n"
-        f"Please answer the user question based on the retrieved context chunks above, and cite the source document names."
+        f"Please answer the user question considering both the conversation history and retrieved context chunks above, and cite the source document names."
     )
     
     payload = {
@@ -47,12 +49,11 @@ def _call_groq_llm(query: str, context: str, tool_info: str, groq_key: str) -> s
         return res_json["choices"][0]["message"]["content"]
 
 
-
 SYSTEM_PROMPT = """You are India's premier Drone Intelligence System AI assistant.
 Your goal is to provide accurate, authoritative, and structured technical and regulatory answers regarding drones in India.
 
 Rules:
-1. Base your answer strictly on the provided Retrieved Context chunks.
+1. Base your answer strictly on the provided Retrieved Context chunks and Conversation History.
 2. Always explicitly cite the source document name for every fact or rule (e.g. `[Source: dgca_regulations_handbook.md]` or `[Source: drone_models.json]`).
 3. Structure your response cleanly using GitHub-style markdown (headings, bold text, bullet points).
 4. When MCP Tool execution data is provided, incorporate the exact calculated numbers and metrics into your answer.
@@ -110,9 +111,10 @@ def generate_response(
     docs: List[Document],
     tool_name: Optional[str] = None,
     tool_result: Optional[Dict[str, Any]] = None,
+    chat_history: str = "",
 ) -> Dict[str, Any]:
     """
-    Generates a RAG response from retrieved top chunks and optional MCP tool output.
+    Generates a RAG response from retrieved top chunks, chat history memory, and optional MCP tool output.
     Explicitly includes source document citations in both the LLM answer and response metadata.
     """
     context_blocks = []
@@ -138,7 +140,7 @@ def generate_response(
 
     if groq_key and groq_key.strip():
         try:
-            answer_text = _call_groq_llm(query, context, tool_info, groq_key)
+            answer_text = _call_groq_llm(query, context, tool_info, groq_key, chat_history=chat_history)
             llm_provider = "Groq (Llama 3.3 70B)"
         except Exception as e:
             error_reason = f"[Groq LLM Error]: {str(e)}"
@@ -154,9 +156,11 @@ def generate_response(
                 google_api_key=gemini_key.strip(),
                 temperature=0.3,
             )
+            history_block = f"Recent Conversation History:\n{chat_history}\n\n" if chat_history else ""
+            human_prompt = f"{history_block}Retrieved Context Chunks:\n{{context}}{{tool_info}}\n\nUser Question: {{query}}\n\nPlease answer the user question considering both the conversation history and context chunks above, and cite source document names."
             prompt = ChatPromptTemplate.from_messages([
                 ("system", SYSTEM_PROMPT),
-                ("human", "Retrieved Context Chunks:\n{context}{tool_info}\n\nUser Question: {query}\n\nPlease answer the user question based on the retrieved context chunks above, and cite the source document names."),
+                ("human", human_prompt),
             ])
             chain = prompt | llm
             response = chain.invoke({"context": context, "tool_info": tool_info, "query": query})
